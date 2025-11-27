@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useCallback, use } from 'react';
 import { useTranslations } from 'next-intl';
-import { usePolling } from '@/hooks/usePolling';
+import { useWebSocket } from '@/hooks/useWebSocket';
 import { VoteButtons } from '@/components/VoteButtons';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import type { Player, ImageType, GameState } from '@/lib/types';
+import type { WSMessage, Player, ImageType } from '@/lib/types';
 
 type PlayerStatus = 'joining' | 'waiting' | 'playing' | 'voted' | 'result' | 'finished';
 
@@ -25,7 +25,7 @@ interface JoinPageProps {
   params: Promise<{ roomId: string }>;
 }
 
-export default function JoinPollingPage({ params }: JoinPageProps) {
+export default function JoinPage({ params }: JoinPageProps) {
   const { roomId } = use(params);
   const t = useTranslations('join');
   const tGame = useTranslations('game');
@@ -45,74 +45,113 @@ export default function JoinPollingPage({ params }: JoinPageProps) {
     players: [],
   });
 
-  const { isPolling, sendAction } = usePolling({
-    roomId: roomId,
-    enabled: !!state.player,
-    interval: 1000,
-    onUpdate: (gameState: GameState) => {
-      console.log('[Player] Game state updated:', gameState);
-
-      setState(prev => {
-        const updatedPlayer = gameState.players.find(p => p.id === prev.player?.id);
-
-        // Determine status based on game state
-        let newStatus: PlayerStatus = prev.status;
-
-        if (gameState.status === 'lobby' && prev.player) {
-          newStatus = 'waiting';
-        } else if (gameState.status === 'playing') {
-          newStatus = updatedPlayer?.hasVoted ? 'voted' : 'playing';
-        } else if (gameState.status === 'showing-result') {
-          newStatus = 'result';
-        } else if (gameState.status === 'finished') {
-          newStatus = 'finished';
+  const handleMessage = useCallback((message: WSMessage) => {
+    switch (message.type) {
+      case 'player:join': {
+        const payload = message.payload as { player: Player; success: boolean };
+        if (payload.success) {
+          setState(prev => ({
+            ...prev,
+            status: 'waiting',
+            player: payload.player,
+          }));
+          setError(null);
         }
+        break;
+      }
 
-        // Check if vote was correct
-        let isCorrect = prev.isCorrect;
-        if (gameState.correctAnswer && prev.currentVote) {
-          isCorrect = prev.currentVote === gameState.correctAnswer;
+      case 'error': {
+        const payload = message.payload as { message: string; code: string };
+        setError(payload.message);
+        break;
+      }
+
+      case 'game:state': {
+        const payload = message.payload as { players?: Player[] };
+        if (payload.players) {
+          setState(prev => ({
+            ...prev,
+            players: payload.players!,
+          }));
         }
+        break;
+      }
 
-        return {
-          ...prev,
-          status: newStatus,
-          players: gameState.players,
-          player: updatedPlayer || prev.player,
-          currentRound: gameState.currentRound,
-          totalRounds: gameState.totalRounds,
-          correctAnswer: gameState.correctAnswer,
-          isCorrect,
+      case 'round:start': {
+        const payload = message.payload as {
+          round: number;
+          timeLeft: number;
         };
-      });
-    },
+        setState(prev => ({
+          ...prev,
+          status: 'playing',
+          currentRound: payload.round,
+          currentVote: null,
+          isCorrect: null,
+          correctAnswer: null,
+        }));
+        break;
+      }
+
+      case 'round:end': {
+        const payload = message.payload as {
+          correctAnswer: ImageType;
+          players: Player[];
+        };
+        
+        setState(prev => {
+          const updatedPlayer = payload.players.find(p => p.id === prev.player?.id);
+          const isCorrect = prev.currentVote === payload.correctAnswer;
+          
+          return {
+            ...prev,
+            status: 'result',
+            correctAnswer: payload.correctAnswer,
+            isCorrect,
+            players: payload.players,
+            player: updatedPlayer || prev.player,
+          };
+        });
+        break;
+      }
+
+      case 'game:end': {
+        const payload = message.payload as { players: Player[] };
+        const sortedPlayers = [...payload.players].sort((a, b) => b.score - a.score);
+        
+        setState(prev => {
+          const rank = sortedPlayers.findIndex(p => p.id === prev.player?.id) + 1;
+          const updatedPlayer = sortedPlayers.find(p => p.id === prev.player?.id);
+          
+          return {
+            ...prev,
+            status: 'finished',
+            players: sortedPlayers,
+            finalRank: rank,
+            player: updatedPlayer || prev.player,
+          };
+        });
+        break;
+      }
+    }
+  }, []);
+
+  const { isConnected, send } = useWebSocket({
+    onMessage: handleMessage,
+    autoConnect: true,
   });
 
-  const handleJoin = async () => {
+  const handleJoin = () => {
     if (!nickname.trim()) return;
 
-    console.log('[Player] Joining room:', roomId, 'as', nickname.trim());
-
-    const result = await sendAction('join', { nickname: nickname.trim() });
-
-    if (result.success) {
-      console.log('[Player] Joined successfully:', result.player);
-      setState(prev => ({
-        ...prev,
-        status: 'waiting',
-        player: result.player,
-      }));
-      setError(null);
-    } else {
-      console.error('[Player] Failed to join:', result.error);
-      setError(result.error || 'Failed to join room');
-    }
+    send({
+      type: 'player:join',
+      payload: { roomId, nickname: nickname.trim() },
+    });
   };
 
-  const handleVote = async (vote: ImageType) => {
-    if (state.currentVote || !state.player) return;
-
-    console.log('[Player] Voting:', vote);
+  const handleVote = (vote: ImageType) => {
+    if (state.currentVote) return;
 
     setState(prev => ({
       ...prev,
@@ -120,29 +159,11 @@ export default function JoinPollingPage({ params }: JoinPageProps) {
       currentVote: vote,
     }));
 
-    const result = await sendAction('vote', { playerId: state.player.id, vote });
-
-    if (!result.success) {
-      console.error('[Player] Failed to vote:', result.error);
-      // Revert vote status on error
-      setState(prev => ({
-        ...prev,
-        status: 'playing',
-        currentVote: null,
-      }));
-    }
+    send({
+      type: 'player:vote',
+      payload: { vote },
+    });
   };
-
-  // Reset vote when new round starts
-  useEffect(() => {
-    if (state.status === 'playing' && state.currentVote) {
-      setState(prev => ({
-        ...prev,
-        currentVote: null,
-        isCorrect: null,
-      }));
-    }
-  }, [state.currentRound]);
 
   const getRankEmoji = (rank: number) => {
     if (rank === 1) return '🥇';
@@ -183,12 +204,18 @@ export default function JoinPollingPage({ params }: JoinPageProps) {
 
               <button
                 onClick={handleJoin}
-                disabled={!nickname.trim()}
+                disabled={!nickname.trim() || !isConnected}
                 className="w-full py-4 bg-blue-600 text-white font-bold text-xl rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-all shadow-material-2"
               >
                 {t('join')}
               </button>
             </div>
+
+            {!isConnected && (
+              <p className="text-center text-amber-600 text-sm">
+                Connecting to server...
+              </p>
+            )}
           </div>
         </div>
       </main>
@@ -210,9 +237,6 @@ export default function JoinPollingPage({ params }: JoinPageProps) {
           <div className="bg-white rounded-xl px-6 py-4 shadow-material-1 border border-gray-200">
             <p className="text-gray-600 text-sm">{state.players.length} {t('players')}</p>
           </div>
-          <div className="text-sm text-gray-500">
-            {isPolling ? '🟢 Connected' : '🔴 Disconnected'}
-          </div>
         </div>
       </main>
     );
@@ -220,20 +244,18 @@ export default function JoinPollingPage({ params }: JoinPageProps) {
 
   // Game finished - show final result
   if (state.status === 'finished') {
-    const sortedPlayers = [...state.players].sort((a, b) => b.score - a.score);
-    const rank = sortedPlayers.findIndex(p => p.id === state.player?.id) + 1;
-    const percentage = state.player
-      ? Math.round((state.player.score / state.totalRounds) * 100)
+    const percentage = state.player 
+      ? Math.round((state.player.score / state.totalRounds) * 100) 
       : 0;
 
     return (
       <main className="min-h-screen flex flex-col items-center justify-center p-8 bg-gray-50">
         <div className="text-center space-y-6 w-full max-w-sm">
           <h2 className="text-3xl font-bold text-gray-900">{tLeaderboard('title')}</h2>
-
+          
           {/* Your result */}
           <div className="bg-white rounded-2xl p-6 border border-blue-200 shadow-material-2">
-            <div className="text-6xl mb-4">{getRankEmoji(rank)}</div>
+            <div className="text-6xl mb-4">{getRankEmoji(state.finalRank || 0)}</div>
             <p className="text-gray-600 mb-2">
               {state.player?.nickname} {tLeaderboard('you')}
             </p>
@@ -245,7 +267,7 @@ export default function JoinPollingPage({ params }: JoinPageProps) {
 
           {/* Top 3 */}
           <div className="space-y-2">
-            {sortedPlayers.slice(0, 3).map((player, index) => (
+            {state.players.slice(0, 3).map((player, index) => (
               <div
                 key={player.id}
                 className={`flex items-center justify-between p-3 rounded-xl shadow-sm ${

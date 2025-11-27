@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "title": "📷 Real or AI 🍌",
+    "description": "Can you tell the difference between real photos and AI-generated images?"
+  },
+  "home": {
+    "title": "📷 Real or AI 🍌",
+    "subtitle": "Can you tell the difference?",
+    "solo": "Solo",
+    "soloDescription": "Play alone and test your skills",
+    "withFriends": "With Friends",
+    "withFriendsDescription": "Host a game and play with others",
+    "howToPlay": "How to Play",
+    "howToPlayDescription": "You'll see 12 images. For each one, decide if it's a real photo or AI-generated. You have 30 seconds per image. Good luck!"
+  },
+  "game": {
+    "round": "Round",
+    "of": "of",
+    "timeLeft": "Time left",
+    "seconds": "s",
+    "real": "📷 Real",
+    "ai": "🍌 AI",
+    "correct": "Correct!",
+    "incorrect": "Incorrect!",
+    "wasReal": "It was a real photo",
+    "wasAI": "It was AI-generated",
+    "nextRound": "Next Round",
+    "score": "Score",
+    "finalScore": "Final Score",
+    "youGot": "You got",
+    "outOf": "out of",
+    "correct_plural": "correct",
+    "percentage": "That's",
+    "playAgain": "Play Again",
+    "backToHome": "Back to Home",
+    "timesUp": "Time's up!",
+    "waiting": "Waiting for next round..."
+  },
+  "host": {
+    "scanToJoin": "Scan to Join",
+    "orGoTo": "Or go to",
+    "roomCode": "Room Code",
+    "players": "Players",
+    "waitingForPlayers": "Waiting for players to join...",
+    "startGame": "Start Game",
+    "minPlayers": "Need at least 1 player to start",
+    "votes": "votes",
+    "waitingForVotes": "Waiting for votes...",
+    "allVoted": "Everyone has voted!",
+    "showingResults": "Showing results..."
+  },
+  "join": {
+    "joinGame": "Join Game",
+    "enterNickname": "Enter your nickname",
+    "nickname": "Nickname",
+    "join": "Join",
+    "waiting": "Waiting for host to start...",
+    "gameStarting": "Game is starting!",
+    "youVoted": "You voted",
+    "waitingForResults": "Waiting for results...",
+    "connected": "Connected",
+    "players": "players in lobby"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "rank": "Rank",
+    "player": "Player",
+    "score": "Score",
+    "you": "(You)",
+    "playAgain": "Play Again",
+    "backToHome": "Back to Home"
+  },
+  "errors": {
+    "roomNotFound": "Room not found",
+    "connectionLost": "Connection lost. Reconnecting...",
+    "gameInProgress": "Game already in progress",
+    "nicknameTaken": "Nickname already taken"
+  }
+}

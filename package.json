@@ -1,0 +1,38 @@
+{
+  "name": "real-or-ia",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "bun run server.ts",
+    "dev:next": "next dev",
+    "build": "next build",
+    "start": "NODE_ENV=production bun run server.ts",
+    "lint": "eslint",
+    "setup-images": "bun run scripts/setup-images.ts",
+    "download-real": "bun run scripts/download-real-images.ts",
+    "generate-ai": "bun run scripts/generate-ai-images.ts"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "next": "16.0.5",
+    "next-intl": "^4.5.5",
+    "qrcode.react": "^4.2.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "sharp": "^0.34.5",
+    "uuid": "^13.0.0",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/uuid": "^11.0.0",
+    "@types/ws": "^8.18.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

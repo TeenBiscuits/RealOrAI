@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "title": "📷 Real o IA 🍌",
+    "description": "¿Puedes distinguir entre fotos reales e imágenes generadas por IA?"
+  },
+  "home": {
+    "title": "📷 Real o IA 🍌",
+    "subtitle": "¿Puedes notar la diferencia?",
+    "solo": "Solo",
+    "soloDescription": "Juega solo y pon a prueba tus habilidades",
+    "withFriends": "Con Amigos",
+    "withFriendsDescription": "Crea una partida y juega con otros",
+    "howToPlay": "Cómo Jugar",
+    "howToPlayDescription": "Verás 12 imágenes. Para cada una, decide si es una foto real o generada por IA. Tienes 30 segundos por imagen. ¡Buena suerte!"
+  },
+  "game": {
+    "round": "Ronda",
+    "of": "de",
+    "timeLeft": "Tiempo restante",
+    "seconds": "s",
+    "real": "📷 Real",
+    "ai": "🍌 IA",
+    "correct": "¡Correcto!",
+    "incorrect": "¡Incorrecto!",
+    "wasReal": "Era una foto real",
+    "wasAI": "Era generada por IA",
+    "nextRound": "Siguiente Ronda",
+    "score": "Puntuación",
+    "finalScore": "Puntuación Final",
+    "youGot": "Obtuviste",
+    "outOf": "de",
+    "correct_plural": "correctas",
+    "percentage": "Eso es",
+    "playAgain": "Jugar de Nuevo",
+    "backToHome": "Volver al Inicio",
+    "timesUp": "¡Se acabó el tiempo!",
+    "waiting": "Esperando siguiente ronda..."
+  },
+  "host": {
+    "scanToJoin": "Escanea para Unirte",
+    "orGoTo": "O ve a",
+    "roomCode": "Código de Sala",
+    "players": "Jugadores",
+    "waitingForPlayers": "Esperando que se unan jugadores...",
+    "startGame": "Iniciar Juego",
+    "minPlayers": "Se necesita al menos 1 jugador para iniciar",
+    "votes": "votos",
+    "waitingForVotes": "Esperando votos...",
+    "allVoted": "¡Todos han votado!",
+    "showingResults": "Mostrando resultados..."
+  },
+  "join": {
+    "joinGame": "Unirse al Juego",
+    "enterNickname": "Ingresa tu apodo",
+    "nickname": "Apodo",
+    "join": "Unirse",
+    "waiting": "Esperando que el anfitrión inicie...",
+    "gameStarting": "¡El juego está comenzando!",
+    "youVoted": "Votaste",
+    "waitingForResults": "Esperando resultados...",
+    "connected": "Conectado",
+    "players": "jugadores en el lobby"
+  },
+  "leaderboard": {
+    "title": "Tabla de Posiciones",
+    "rank": "Posición",
+    "player": "Jugador",
+    "score": "Puntuación",
+    "you": "(Tú)",
+    "playAgain": "Jugar de Nuevo",
+    "backToHome": "Volver al Inicio"
+  },
+  "errors": {
+    "roomNotFound": "Sala no encontrada",
+    "connectionLost": "Conexión perdida. Reconectando...",
+    "gameInProgress": "Juego en progreso",
+    "nicknameTaken": "Apodo ya en uso"
+  }
+}

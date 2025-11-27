@@ -34,15 +34,17 @@ export interface RoomState {
 
 // WebSocket message types
 export type WSMessageType =
-  | 'player:join'
-  | 'player:leave'
-  | 'player:vote'
-  | 'game:start'
-  | 'game:state'
-  | 'round:start'
-  | 'round:end'
-  | 'game:end'
-  | 'error';
+  | "room:create"
+  | "room:created"
+  | "player:join"
+  | "player:leave"
+  | "player:vote"
+  | "game:start"
+  | "game:state"
+  | "round:start"
+  | "round:end"
+  | "game:end"
+  | "error";
 
 export interface WSMessage {
   type: WSMessageType;

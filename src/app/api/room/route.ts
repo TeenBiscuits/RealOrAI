@@ -7,12 +7,16 @@ export async function POST(request: NextRequest) {
     const hostId = uuidv4();
     const room = createRoom(hostId);
 
+    console.log(
+      `[API] Room created - roomId: ${room.roomId}, hostId: ${hostId}`,
+    );
+
     return NextResponse.json({
       roomId: room.roomId,
       hostId: room.hostId,
     });
   } catch (error) {
-    console.error('Error creating room:', error);
+    console.error("[API] Error creating room:", error);
     return NextResponse.json(
       { error: "Failed to create room" },
       { status: 500 },
@@ -25,10 +29,13 @@ export async function GET(request: NextRequest) {
   const roomId = searchParams.get("roomId");
 
   if (!roomId) {
+    console.log("[API] GET room - missing roomId");
     return NextResponse.json({ error: "Room ID required" }, { status: 400 });
   }
 
   const room = getRoom(roomId);
+  console.log(`[API] GET room ${roomId} - exists: ${!!room}`);
+
   if (!room) {
     return NextResponse.json({ error: "Room not found" }, { status: 404 });
   }

@@ -89,7 +89,7 @@ export default function JoinPollingPage({ params }: JoinPageProps) {
           player: updatedPlayer || prev.player,
           currentRound: gameState.currentRound,
           totalRounds: gameState.totalRounds,
-          correctAnswer: gameState.correctAnswer,
+          correctAnswer: gameState.correctAnswer ?? null,
           isCorrect,
         };
       });

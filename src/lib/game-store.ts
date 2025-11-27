@@ -5,6 +5,9 @@ import { selectGameImages } from "./images";
 // In-memory store for rooms (in production, use Redis or similar)
 const rooms = new Map<string, RoomState>();
 
+// Store round start times for timer calculation
+const roundStartTimes = new Map<string, number>();
+
 const TOTAL_ROUNDS = 12;
 const TIME_PER_ROUND = 30;
 
@@ -85,6 +88,9 @@ export function startGame(roomId: string): GameState | null {
   room.gameState.currentImage = room.images[0];
   room.gameState.timeLeft = TIME_PER_ROUND;
 
+  // Store round start time
+  roundStartTimes.set(roomId, Date.now());
+
   // Reset all player votes
   room.gameState.players.forEach((p) => {
     p.hasVoted = false;
@@ -107,6 +113,11 @@ export function submitVote(
 
   player.currentVote = vote;
   player.hasVoted = true;
+
+  // Check if all players voted, end round early
+  if (allPlayersVoted(roomId)) {
+    endRound(roomId);
+  }
 
   return true;
 }
@@ -149,6 +160,7 @@ export function nextRound(roomId: string): GameState | null {
 
   if (nextRoundNum > TOTAL_ROUNDS) {
     room.gameState.status = "finished";
+    roundStartTimes.delete(roomId);
     return room.gameState;
   }
 
@@ -157,6 +169,9 @@ export function nextRound(roomId: string): GameState | null {
   room.gameState.timeLeft = TIME_PER_ROUND;
   room.gameState.status = "playing";
   room.gameState.correctAnswer = undefined;
+
+  // Store new round start time
+  roundStartTimes.set(roomId, Date.now());
 
   // Reset votes
   room.gameState.players.forEach((p) => {
@@ -176,7 +191,36 @@ export function updateTimeLeft(roomId: string, timeLeft: number): void {
 
 export function getGameState(roomId: string): GameState | null {
   const room = rooms.get(roomId);
-  return room?.gameState || null;
+  if (!room) return null;
+
+  // Calculate time left based on elapsed time if round is in progress
+  if (room.gameState.status === "playing") {
+    const roundStartTime = roundStartTimes.get(roomId);
+    if (roundStartTime) {
+      const elapsed = Math.floor((Date.now() - roundStartTime) / 1000);
+      const timeLeft = Math.max(0, TIME_PER_ROUND - elapsed);
+      room.gameState.timeLeft = timeLeft;
+
+      // Auto-end round if time is up
+      if (timeLeft === 0) {
+        endRound(roomId);
+      }
+    }
+  }
+
+  // Auto-progress from showing-result to next round after 4 seconds
+  if (room.gameState.status === "showing-result") {
+    const roundStartTime = roundStartTimes.get(roomId);
+    if (roundStartTime) {
+      const elapsed = Math.floor((Date.now() - roundStartTime) / 1000);
+      // 30 seconds playing + 4 seconds showing result = 34 seconds
+      if (elapsed >= TIME_PER_ROUND + 4) {
+        nextRound(roomId);
+      }
+    }
+  }
+
+  return room.gameState;
 }
 
 function generateRoomCode(): string {

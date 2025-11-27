@@ -1,7 +1,7 @@
 services:
   app:
     # Use pre-built image from GitHub Container Registry
-    image: ghcr.io/teenbiscuits/realoria:latest
+    image: ghcr.io/teenbiscuits/realorai:latest
     # Uncomment to build locally instead:
     # build:
     #   context: .

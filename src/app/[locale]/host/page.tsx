@@ -68,7 +68,7 @@ export default function HostPollingPage() {
         totalRounds: newGameState.totalRounds,
         timeLeft: newGameState.timeLeft,
         currentImage: newGameState.currentImage,
-        correctAnswer: newGameState.correctAnswer ?? null,
+        correctAnswer: newGameState.correctAnswer,
         voteCount: newGameState.players.filter((p) => p.hasVoted).length,
         status:
           newGameState.status === "lobby"

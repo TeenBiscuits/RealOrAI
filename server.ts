@@ -194,7 +194,7 @@ app.prepare().then(() => {
   }
 
   wss.on("connection", (ws: ExtendedWebSocket) => {
-    console.log("[WebSocket] Client connected");
+    console.log("WebSocket client connected");
     ws.isAlive = true;
 
     ws.on("pong", () => {
@@ -204,35 +204,8 @@ app.prepare().then(() => {
     ws.on("message", (data) => {
       try {
         const message: WSMessage = JSON.parse(data.toString());
-        console.log(
-          "[WebSocket] Received message:",
-          message.type,
-          message.payload,
-        );
 
         switch (message.type) {
-          case "room:create": {
-            const { hostId } = message.payload as { hostId: string };
-            console.log(`[WebSocket] room:create - hostId: ${hostId}`);
-
-            const room = createRoom(hostId);
-            console.log(`[WebSocket] Room created - roomId: ${room.roomId}`);
-
-            ws.roomId = room.roomId;
-            ws.isHost = true;
-
-            if (!roomConnections.has(room.roomId)) {
-              roomConnections.set(room.roomId, new Set());
-            }
-            roomConnections.get(room.roomId)?.add(ws);
-
-            sendTo(ws, {
-              type: "room:created",
-              payload: { roomId: room.roomId, hostId: room.hostId },
-            });
-            break;
-          }
-
           case "player:join": {
             const { roomId, nickname, isHost } = message.payload as {
               roomId: string;
@@ -240,12 +213,8 @@ app.prepare().then(() => {
               isHost?: boolean;
             };
 
-            console.log(
-              `[WebSocket] player:join - roomId: ${roomId}, nickname: ${nickname}, isHost: ${isHost}`,
-            );
-
             if (isHost) {
-              // Host is reconnecting to existing room
+              // Host is joining/creating room
               ws.roomId = roomId;
               ws.isHost = true;
 
@@ -255,10 +224,6 @@ app.prepare().then(() => {
               roomConnections.get(roomId)?.add(ws);
 
               const room = getRoom(roomId);
-              console.log(
-                `[WebSocket] Host reconnected to room ${roomId}, room exists: ${!!room}`,
-              );
-
               if (room) {
                 sendTo(ws, {
                   type: "game:state",
@@ -267,29 +232,9 @@ app.prepare().then(() => {
               }
             } else if (nickname) {
               // Player is joining
-              const room = getRoom(roomId);
-              console.log(
-                `[WebSocket] Player attempting to join room ${roomId}, room exists: ${!!room}`,
-              );
-
-              if (!room) {
-                console.log(`[WebSocket] Room ${roomId} not found`);
-                sendTo(ws, {
-                  type: "error",
-                  payload: {
-                    message: "Room not found",
-                    code: "ROOM_NOT_FOUND",
-                  },
-                });
-                return;
-              }
-
               const player = addPlayer(roomId, nickname);
 
               if (!player) {
-                console.log(
-                  `[WebSocket] Failed to add player ${nickname} to room ${roomId}`,
-                );
                 sendTo(ws, {
                   type: "error",
                   payload: {
@@ -299,10 +244,6 @@ app.prepare().then(() => {
                 });
                 return;
               }
-
-              console.log(
-                `[WebSocket] Player ${nickname} (${player.id}) joined room ${roomId}`,
-              );
 
               ws.roomId = roomId;
               ws.playerId = player.id;

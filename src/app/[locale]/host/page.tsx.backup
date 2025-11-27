@@ -56,17 +56,6 @@ export default function HostPage() {
 
   const handleMessage = useCallback((message: WSMessage) => {
     switch (message.type) {
-      case "room:created": {
-        const payload = message.payload as { roomId: string; hostId: string };
-        setState((prev) => ({
-          ...prev,
-          status: "lobby",
-          roomId: payload.roomId,
-          hostId: payload.hostId,
-        }));
-        break;
-      }
-
       case "game:state": {
         const payload = message.payload as Partial<{
           players: Player[];
@@ -142,16 +131,32 @@ export default function HostPage() {
     autoConnect: true,
   });
 
-  // Create room on mount via WebSocket
+  // Create room on mount
   useEffect(() => {
-    if (isConnected && !state.roomId) {
-      const hostId = crypto.randomUUID();
-      console.log("[Host] Creating room via WebSocket, hostId:", hostId);
+    async function createRoom() {
+      try {
+        const response = await fetch("/api/room", { method: "POST" });
+        const data = await response.json();
 
-      send({
-        type: "room:create",
-        payload: { hostId },
-      });
+        setState((prev) => ({
+          ...prev,
+          status: "lobby",
+          roomId: data.roomId,
+          hostId: data.hostId,
+        }));
+
+        // Join the room as host via WebSocket
+        send({
+          type: "player:join",
+          payload: { roomId: data.roomId, isHost: true },
+        });
+      } catch (error) {
+        console.error("Failed to create room:", error);
+      }
+    }
+
+    if (isConnected && !state.roomId) {
+      createRoom();
     }
   }, [isConnected, state.roomId, send]);
 

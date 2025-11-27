@@ -1,18 +1,28 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useTranslations } from 'next-intl';
-import { useWebSocket } from '@/hooks/useWebSocket';
-import { QRCodeDisplay } from '@/components/QRCodeDisplay';
-import { PlayerList } from '@/components/PlayerList';
-import { GameImage } from '@/components/GameImage';
-import { Timer } from '@/components/Timer';
-import { Leaderboard } from '@/components/Leaderboard';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import Link from 'next/link';
-import type { WSMessage, Player, GameImage as GameImageType, ImageType } from '@/lib/types';
+import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
+import { useWebSocket } from "@/hooks/useWebSocket";
+import { QRCodeDisplay } from "@/components/QRCodeDisplay";
+import { PlayerList } from "@/components/PlayerList";
+import { GameImage } from "@/components/GameImage";
+import { Timer } from "@/components/Timer";
+import { Leaderboard } from "@/components/Leaderboard";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import Link from "next/link";
+import type {
+  WSMessage,
+  Player,
+  GameImage as GameImageType,
+  ImageType,
+} from "@/lib/types";
 
-type GameStatus = 'creating' | 'lobby' | 'playing' | 'showing-result' | 'finished';
+type GameStatus =
+  | "creating"
+  | "lobby"
+  | "playing"
+  | "showing-result"
+  | "finished";
 
 interface HostState {
   status: GameStatus;
@@ -28,11 +38,11 @@ interface HostState {
 }
 
 export default function HostPage() {
-  const t = useTranslations('host');
-  const tGame = useTranslations('game');
+  const t = useTranslations("host");
+  const tGame = useTranslations("game");
 
   const [state, setState] = useState<HostState>({
-    status: 'creating',
+    status: "creating",
     roomId: null,
     hostId: null,
     players: [],
@@ -46,7 +56,18 @@ export default function HostPage() {
 
   const handleMessage = useCallback((message: WSMessage) => {
     switch (message.type) {
-      case 'game:state': {
+      case "room:created": {
+        const payload = message.payload as { roomId: string; hostId: string };
+        setState((prev) => ({
+          ...prev,
+          status: "lobby",
+          roomId: payload.roomId,
+          hostId: payload.hostId,
+        }));
+        break;
+      }
+
+      case "game:state": {
         const payload = message.payload as Partial<{
           players: Player[];
           timeLeft: number;
@@ -60,9 +81,10 @@ export default function HostPage() {
           };
         }>;
 
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          players: payload.players ?? payload.gameState?.players ?? prev.players,
+          players:
+            payload.players ?? payload.gameState?.players ?? prev.players,
           timeLeft: payload.timeLeft ?? prev.timeLeft,
           voteCount: payload.voteCount ?? prev.voteCount,
           currentRound: payload.gameState?.currentRound ?? prev.currentRound,
@@ -71,15 +93,15 @@ export default function HostPage() {
         break;
       }
 
-      case 'round:start': {
+      case "round:start": {
         const payload = message.payload as {
           round: number;
           image: GameImageType;
           timeLeft: number;
         };
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          status: 'playing',
+          status: "playing",
           currentRound: payload.round,
           currentImage: payload.image,
           timeLeft: payload.timeLeft,
@@ -89,25 +111,25 @@ export default function HostPage() {
         break;
       }
 
-      case 'round:end': {
+      case "round:end": {
         const payload = message.payload as {
           correctAnswer: ImageType;
           players: Player[];
         };
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          status: 'showing-result',
+          status: "showing-result",
           correctAnswer: payload.correctAnswer,
           players: payload.players,
         }));
         break;
       }
 
-      case 'game:end': {
+      case "game:end": {
         const payload = message.payload as { players: Player[] };
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          status: 'finished',
+          status: "finished",
           players: payload.players,
         }));
         break;
@@ -120,47 +142,31 @@ export default function HostPage() {
     autoConnect: true,
   });
 
-  // Create room on mount
+  // Create room on mount via WebSocket
   useEffect(() => {
-    async function createRoom() {
-      try {
-        const response = await fetch('/api/room', { method: 'POST' });
-        const data = await response.json();
-
-        setState(prev => ({
-          ...prev,
-          status: 'lobby',
-          roomId: data.roomId,
-          hostId: data.hostId,
-        }));
-
-        // Join the room as host via WebSocket
-        send({
-          type: 'player:join',
-          payload: { roomId: data.roomId, isHost: true },
-        });
-      } catch (error) {
-        console.error('Failed to create room:', error);
-      }
-    }
-
     if (isConnected && !state.roomId) {
-      createRoom();
+      const hostId = crypto.randomUUID();
+      console.log("[Host] Creating room via WebSocket, hostId:", hostId);
+
+      send({
+        type: "room:create",
+        payload: { hostId },
+      });
     }
   }, [isConnected, state.roomId, send]);
 
   const startGame = () => {
     if (state.players.length === 0) return;
-    send({ type: 'game:start', payload: {} });
+    send({ type: "game:start", payload: {} });
   };
 
   const getJoinUrl = () => {
-    if (typeof window === 'undefined' || !state.roomId) return '';
+    if (typeof window === "undefined" || !state.roomId) return "";
     return `${window.location.origin}/join/${state.roomId}`;
   };
 
   // Creating room
-  if (state.status === 'creating' || !state.roomId) {
+  if (state.status === "creating" || !state.roomId) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center space-y-4">
@@ -172,11 +178,14 @@ export default function HostPage() {
   }
 
   // Lobby - waiting for players
-  if (state.status === 'lobby') {
+  if (state.status === "lobby") {
     return (
       <main className="min-h-screen flex flex-col bg-gray-50">
         <header className="p-4 flex justify-between items-center">
-          <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
+          <Link
+            href="/"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
             ← Back
           </Link>
           <LanguageSwitcher />
@@ -195,11 +204,11 @@ export default function HostPage() {
               disabled={state.players.length === 0}
               className={`w-full py-4 font-bold text-xl rounded-2xl transition-all shadow-material-2 ${
                 state.players.length > 0
-                  ? 'bg-green-600 text-white hover:bg-green-700 transform hover:scale-105'
-                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                  ? "bg-green-600 text-white hover:bg-green-700 transform hover:scale-105"
+                  : "bg-gray-200 text-gray-500 cursor-not-allowed"
               }`}
             >
-              {state.players.length > 0 ? t('startGame') : t('minPlayers')}
+              {state.players.length > 0 ? t("startGame") : t("minPlayers")}
             </button>
           </div>
         </div>
@@ -208,7 +217,7 @@ export default function HostPage() {
   }
 
   // Game finished - show leaderboard
-  if (state.status === 'finished') {
+  if (state.status === "finished") {
     return (
       <main className="min-h-screen flex flex-col bg-gray-50">
         <header className="p-4 flex justify-end">
@@ -216,14 +225,17 @@ export default function HostPage() {
         </header>
 
         <div className="flex-1 flex flex-col items-center justify-center p-8">
-          <Leaderboard players={state.players} totalRounds={state.totalRounds} />
+          <Leaderboard
+            players={state.players}
+            totalRounds={state.totalRounds}
+          />
 
           <div className="mt-8 flex gap-4">
             <Link
               href="/"
               className="px-8 py-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-all"
             >
-              {tGame('backToHome')}
+              {tGame("backToHome")}
             </Link>
           </div>
         </div>
@@ -238,20 +250,19 @@ export default function HostPage() {
       <header className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-4">
           <span className="text-gray-600">
-            {tGame('round')} {state.currentRound} {tGame('of')} {state.totalRounds}
+            {tGame("round")} {state.currentRound} {tGame("of")}{" "}
+            {state.totalRounds}
           </span>
           <span className="text-gray-400">|</span>
           <span className="text-gray-600">
-            {state.voteCount}/{state.players.length} {t('votes')}
+            {state.voteCount}/{state.players.length} {t("votes")}
           </span>
         </div>
-        <div className="text-2xl font-bold text-gray-900">
-          📷 Real or AI 🍌
-        </div>
+        <div className="text-2xl font-bold text-gray-900">📷 Real or AI 🍌</div>
       </header>
 
       {/* Timer */}
-      {state.status === 'playing' && (
+      {state.status === "playing" && (
         <div className="mb-6">
           <Timer timeLeft={state.timeLeft} />
         </div>
@@ -263,16 +274,18 @@ export default function HostPage() {
           <GameImage
             src={state.currentImage.src}
             alt={state.currentImage.alt}
-            showResult={state.status === 'showing-result'}
-            isReal={state.correctAnswer === 'real'}
+            showResult={state.status === "showing-result"}
+            isReal={state.correctAnswer === "real"}
           />
         )}
 
         {/* Result info */}
-        {state.status === 'showing-result' && (
+        {state.status === "showing-result" && (
           <div className="mt-6 text-center">
             <p className="text-xl text-gray-600">
-              {state.correctAnswer === 'real' ? tGame('wasReal') : tGame('wasAI')}
+              {state.correctAnswer === "real"
+                ? tGame("wasReal")
+                : tGame("wasAI")}
             </p>
           </div>
         )}
@@ -280,7 +293,10 @@ export default function HostPage() {
 
       {/* Player vote status */}
       <div className="mt-6">
-        <PlayerList players={state.players} showVoteStatus={state.status === 'playing'} />
+        <PlayerList
+          players={state.players}
+          showVoteStatus={state.status === "playing"}
+        />
       </div>
     </main>
   );

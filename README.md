@@ -11,10 +11,10 @@ A multiplayer game where players try to distinguish between real photos and AI-g
 
 ## Tech Stack
 
-- **Runtime**: Bun
+- **Runtime**: Node.js with pnpm
 - **Framework**: Next.js 16 (App Router)
 - **Styling**: TailwindCSS 4
-- **Real-time**: WebSockets
+- **Real-time**: WebSockets (ws library)
 - **i18n**: next-intl
 - **Image Processing**: Sharp
 
@@ -22,7 +22,7 @@ A multiplayer game where players try to distinguish between real photos and AI-g
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) installed
+- [Node.js](https://nodejs.org) (v18+) and [pnpm](https://pnpm.io) installed
 - (Optional) Unsplash API key for downloading real images
 - (Optional) Google AI API key for generating AI images
 
@@ -34,13 +34,13 @@ git clone <your-repo-url>
 cd real-or-ia
 
 # Install dependencies
-bun install
+pnpm install
 
 # Create placeholder images for testing
-bun run scripts/create-placeholders.ts
+pnpm tsx scripts/create-placeholders.ts
 
 # Start the development server
-bun run dev
+pnpm dev
 ```
 
 The app will be available at `http://localhost:3000`
@@ -50,6 +50,7 @@ The app will be available at `http://localhost:3000`
 To replace placeholder images with real photos and AI-generated images:
 
 1. Copy the environment template:
+
    ```bash
    cp .env.example .env
    ```
@@ -60,17 +61,17 @@ To replace placeholder images with real photos and AI-generated images:
 
 3. Run the setup script:
    ```bash
-   bun run setup-images 24  # Downloads 12 real + generates 12 AI images
+   pnpm setup-images 24  # Downloads 12 real + generates 12 AI images
    ```
 
 ### Individual Image Scripts
 
 ```bash
 # Download only real images from Unsplash
-UNSPLASH_ACCESS_KEY=your_key bun run download-real 10
+UNSPLASH_ACCESS_KEY=your_key pnpm download-real 10
 
 # Generate only AI images using Google Imagen
-GOOGLE_API_KEY=your_key bun run generate-ai 10
+GOOGLE_API_KEY=your_key pnpm generate-ai 10
 ```
 
 ## Game Modes
@@ -86,6 +87,7 @@ GOOGLE_API_KEY=your_key bun run generate-ai 10
 ### With Friends Mode
 
 **Host (on computer/TV):**
+
 1. Click "With Friends" on the home page
 2. A QR code and room code will be displayed
 3. Wait for players to join
@@ -94,6 +96,7 @@ GOOGLE_API_KEY=your_key bun run generate-ai 10
 6. After 12 rounds, see the leaderboard
 
 **Players (on mobile):**
+
 1. Scan the QR code or enter the URL
 2. Enter a nickname and join
 3. When the game starts, vote on each image
@@ -129,11 +132,11 @@ real-or-ia/
 2. Copy the structure from `en.json` and translate
 3. Add the locale to `src/i18n/config.ts`:
    ```typescript
-   export const locales = ['en', 'es', 'fr'] as const;
+   export const locales = ["en", "es", "fr"] as const;
    export const localeNames: Record<Locale, string> = {
-     en: 'English',
-     es: 'Español',
-     fr: 'Français',
+     en: "English",
+     es: "Español",
+     fr: "Français",
    };
    ```
 4. Update the middleware matcher in `src/middleware.ts`
@@ -141,20 +144,21 @@ real-or-ia/
 ## Image Specifications
 
 All images are processed to:
+
 - **Resolution**: 1280x720 pixels (16:9 aspect ratio)
 - **Format**: JPEG (85% quality, progressive)
 - **Optimized** for fast web loading
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| `bun run dev` | Start development server with WebSocket support |
-| `bun run build` | Build for production |
-| `bun run start` | Start production server |
-| `bun run setup-images [count]` | Download real + generate AI images |
-| `bun run download-real [count]` | Download images from Unsplash |
-| `bun run generate-ai [count]` | Generate images with Google Imagen |
+| Script                        | Description                                     |
+| ----------------------------- | ----------------------------------------------- |
+| `pnpm dev`                    | Start development server with WebSocket support |
+| `pnpm build`                  | Build for production                            |
+| `pnpm start`                  | Start production server                         |
+| `pnpm setup-images [count]`   | Download real + generate AI images              |
+| `pnpm download-real [count]`  | Download images from Unsplash                   |
+| `pnpm generate-ai [count]`    | Generate images with Google Imagen              |
 
 ## License
 

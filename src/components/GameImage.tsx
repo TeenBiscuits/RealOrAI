@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useState } from 'react';
+import Image from "next/image";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface GameImageProps {
   src: string;
@@ -10,8 +11,14 @@ interface GameImageProps {
   isReal?: boolean;
 }
 
-export function GameImage({ src, alt = 'Game image', showResult, isReal }: GameImageProps) {
+export function GameImage({
+  src,
+  alt = "Game image",
+  showResult,
+  isReal,
+}: GameImageProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations("game");
 
   return (
     <div className="relative w-full aspect-video max-w-4xl mx-auto rounded-2xl overflow-hidden bg-gray-100 shadow-material-3 border border-gray-200">
@@ -25,7 +32,7 @@ export function GameImage({ src, alt = 'Game image', showResult, isReal }: GameI
         alt={alt}
         fill
         className={`object-cover transition-opacity duration-300 ${
-          isLoading ? 'opacity-0' : 'opacity-100'
+          isLoading ? "opacity-0" : "opacity-100"
         }`}
         onLoad={() => setIsLoading(false)}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1024px"
@@ -33,10 +40,12 @@ export function GameImage({ src, alt = 'Game image', showResult, isReal }: GameI
       />
       {showResult && (
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <div className={`text-6xl font-bold px-8 py-4 rounded-2xl text-white shadow-material-3 ${
-            isReal ? 'bg-blue-600' : 'bg-purple-600'
-          }`}>
-            {isReal ? '📷 REAL' : '🍌 AI'}
+          <div
+            className={`text-6xl font-bold px-8 py-4 rounded-2xl text-white shadow-material-3 ${
+              isReal ? "bg-blue-600" : "bg-purple-600"
+            }`}
+          >
+            {isReal ? t("real") : t("ai")}
           </div>
         </div>
       )}

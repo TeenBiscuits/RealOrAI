@@ -15,7 +15,7 @@
   },
   "game": {
     "title": "📷 Real o IA 🍌",
-    "subtitle": "12 images. 30 seconds each. Can you spot the AI?",
+    "description": "12 images. 30 seconds each. Can you spot the AI?",
     "back": "Back",
     "round": "Round",
     "of": "of",

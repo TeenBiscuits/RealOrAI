@@ -15,7 +15,7 @@
   "dependencies": {
     "@google/genai": "^1.30.0",
     "next": "16.0.5",
-    "next-intl": "^4.5.5",
+    "next-intl": "^4.5.7",
     "qrcode.react": "^4.2.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
@@ -24,17 +24,18 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^20.19.25",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "@types/uuid": "^11.0.0",
     "@types/ws": "^8.18.1",
-    "eslint": "^9",
+    "baseline-browser-mapping": "^2.8.32",
+    "eslint": "^9.39.1",
     "eslint-config-next": "16.0.5",
     "prettier": "3.7.3",
-    "tailwindcss": "^4",
-    "tsx": "^4.19.2",
-    "typescript": "^5"
+    "tailwindcss": "^4.1.17",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

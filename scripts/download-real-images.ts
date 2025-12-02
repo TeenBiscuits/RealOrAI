@@ -133,7 +133,7 @@ async function downloadImages(count: number): Promise<void> {
   const existingFiles = fs
     .readdirSync(OUTPUT_DIR)
     .filter((f) => f.endsWith(".jpg"));
-  let startIndex = existingFiles.length;
+  const startIndex = existingFiles.length;
 
   // Track already downloaded image IDs to avoid duplicates
   const downloadedIds = new Set<string>();

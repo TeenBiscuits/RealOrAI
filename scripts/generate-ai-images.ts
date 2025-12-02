@@ -136,7 +136,7 @@ async function generateImages(count: number): Promise<void> {
   const existingFiles = fs
     .readdirSync(OUTPUT_DIR)
     .filter((f) => f.endsWith(".jpg"));
-  let startIndex = existingFiles.length;
+  const startIndex = existingFiles.length;
 
   let successCount = 0;
   let failCount = 0;

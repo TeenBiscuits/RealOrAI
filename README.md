@@ -61,7 +61,7 @@ To replace placeholder images with real photos and AI-generated images:
 
 3. Run the setup script:
    ```bash
-   pnpm setup-images 24  # Downloads 12 real + generates 12 AI images
+   npm setup-images 24  # Downloads 12 real + generates 12 AI images
    ```
 
 ### Individual Image Scripts
@@ -151,14 +151,14 @@ All images are processed to:
 
 ## Scripts
 
-| Script                        | Description                                     |
-| ----------------------------- | ----------------------------------------------- |
-| `pnpm dev`                    | Start development server with WebSocket support |
-| `pnpm build`                  | Build for production                            |
-| `pnpm start`                  | Start production server                         |
-| `pnpm setup-images [count]`   | Download real + generate AI images              |
-| `pnpm download-real [count]`  | Download images from Unsplash                   |
-| `pnpm generate-ai [count]`    | Generate images with Google Imagen              |
+| Script                       | Description                                     |
+| ---------------------------- | ----------------------------------------------- |
+| `pnpm dev`                   | Start development server with WebSocket support |
+| `pnpm build`                 | Build for production                            |
+| `pnpm start`                 | Start production server                         |
+| `pnpm setup-images [count]`  | Download real + generate AI images              |
+| `pnpm download-real [count]` | Download images from Unsplash                   |
+| `pnpm generate-ai [count]`   | Generate images with Google Imagen              |
 
 ## License
 

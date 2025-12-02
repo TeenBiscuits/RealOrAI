@@ -11,6 +11,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - NEXT_PUBLIC_SITE_URL=https://realorai.pablopl.dev
       - UNSPLASH_ACCESS_KEY=${UNSPLASH_ACCESS_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
     restart: unless-stopped

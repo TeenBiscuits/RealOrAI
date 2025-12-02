@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from "react";
 
 interface UseTimerOptions {
   initialTime: number;
@@ -6,7 +6,11 @@ interface UseTimerOptions {
   autoStart?: boolean;
 }
 
-export function useTimer({ initialTime, onTimeUp, autoStart = false }: UseTimerOptions) {
+export function useTimer({
+  initialTime,
+  onTimeUp,
+  autoStart = false,
+}: UseTimerOptions) {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(autoStart);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -29,15 +33,21 @@ export function useTimer({ initialTime, onTimeUp, autoStart = false }: UseTimerO
     setIsRunning(true);
   }, []);
 
-  const reset = useCallback((newTime?: number) => {
-    stop();
-    setTimeLeft(newTime ?? initialTime);
-  }, [initialTime, stop]);
+  const reset = useCallback(
+    (newTime?: number) => {
+      stop();
+      setTimeLeft(newTime ?? initialTime);
+    },
+    [initialTime, stop],
+  );
 
-  const restart = useCallback((newTime?: number) => {
-    reset(newTime);
-    start();
-  }, [reset, start]);
+  const restart = useCallback(
+    (newTime?: number) => {
+      reset(newTime);
+      start();
+    },
+    [reset, start],
+  );
 
   useEffect(() => {
     if (!isRunning) return;

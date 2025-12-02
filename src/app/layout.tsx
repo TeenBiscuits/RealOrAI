@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "📷 Real or AI 🍌",
-  description: "Can you tell the difference between real photos and AI-generated images?",
+  description:
+    "Can you tell the difference between real photos and AI-generated images?",
 };
 
 export default function RootLayout({

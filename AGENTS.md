@@ -3,12 +3,14 @@
 A multiplayer/solo game where players guess if an image is real or AI-generated.
 
 ## Commands
+
 - `pnpm dev` - Start dev server with WebSocket support (port 3000)
 - `pnpm build` - Build for production
 - `pnpm lint` - Run ESLint
 - No test framework configured
 
 ## Code Style
+
 - **TypeScript**: Strict mode, use `@/*` path alias for imports from `src/`
 - **Components**: PascalCase named exports, `'use client'` directive for client components
 - **Hooks**: camelCase with `use` prefix in `src/hooks/`, return objects not arrays

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 interface ScoreDisplayProps {
   score: number;
@@ -6,7 +6,11 @@ interface ScoreDisplayProps {
   currentRound: number;
 }
 
-export function ScoreDisplay({ score, totalRounds, currentRound }: ScoreDisplayProps) {
+export function ScoreDisplay({
+  score,
+  totalRounds,
+  currentRound,
+}: ScoreDisplayProps) {
   return (
     <div className="flex items-center justify-between w-full max-w-md mx-auto text-lg">
       <div className="flex items-center gap-2">

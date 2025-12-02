@@ -1,20 +1,20 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { selectGameImages } from '@/lib/images';
+import { NextRequest, NextResponse } from "next/server";
+import { selectGameImages } from "@/lib/images";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const includeTypes = searchParams.get('includeTypes') === 'true';
-    
+    const includeTypes = searchParams.get("includeTypes") === "true";
+
     const images = selectGameImages(12);
-    
+
     if (includeTypes) {
       // For solo mode - include types (secure since it's all client-side)
       return NextResponse.json(images);
     }
-    
+
     // For multiplayer - remove types to prevent cheating
-    const sanitizedImages = images.map(img => ({
+    const sanitizedImages = images.map((img) => ({
       id: img.id,
       src: img.src,
       alt: img.alt,
@@ -22,10 +22,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(sanitizedImages);
   } catch (error) {
-    console.error('Error fetching images:', error);
+    console.error("Error fetching images:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch images' },
-      { status: 500 }
+      { error: "Failed to fetch images" },
+      { status: 500 },
     );
   }
 }

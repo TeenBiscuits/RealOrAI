@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect } from 'react';
-import { useTimer } from './useTimer';
-import type { GameImage, ImageType } from '@/lib/types';
+import { useState, useCallback, useEffect } from "react";
+import { useTimer } from "./useTimer";
+import type { GameImage, ImageType } from "@/lib/types";
 
 interface SoloGameState {
-  status: 'loading' | 'ready' | 'playing' | 'showing-result' | 'finished';
+  status: "loading" | "ready" | "playing" | "showing-result" | "finished";
   currentRound: number;
   totalRounds: number;
   score: number;
@@ -18,7 +18,7 @@ const TIME_PER_ROUND = 30;
 
 export function useSoloGame() {
   const [gameState, setGameState] = useState<SoloGameState>({
-    status: 'loading',
+    status: "loading",
     currentRound: 0,
     totalRounds: TOTAL_ROUNDS,
     score: 0,
@@ -31,9 +31,9 @@ export function useSoloGame() {
   const [images, setImages] = useState<GameImage[]>([]);
 
   const handleTimeUp = useCallback(() => {
-    if (gameState.status === 'playing' && !gameState.userVote) {
+    if (gameState.status === "playing" && !gameState.userVote) {
       // Auto-submit wrong answer if time runs out
-      submitVote(gameState.currentImage?.type === 'real' ? 'ai' : 'real');
+      submitVote(gameState.currentImage?.type === "real" ? "ai" : "real");
     }
   }, [gameState.status, gameState.userVote, gameState.currentImage]);
 
@@ -50,30 +50,30 @@ export function useSoloGame() {
 
   const loadImages = async () => {
     try {
-      const response = await fetch('/api/images');
+      const response = await fetch("/api/images");
       const data = await response.json();
-      
+
       // We need to fetch the full images with types from server
       // For solo mode, we'll fetch them with a special flag
-      const fullResponse = await fetch('/api/images?includeTypes=true');
+      const fullResponse = await fetch("/api/images?includeTypes=true");
       const fullData = await fullResponse.json();
-      
+
       setImages(fullData);
-      setGameState(prev => ({ ...prev, status: 'ready' }));
+      setGameState((prev) => ({ ...prev, status: "ready" }));
     } catch (error) {
-      console.error('Failed to load images:', error);
+      console.error("Failed to load images:", error);
     }
   };
 
   const startGame = useCallback(() => {
     if (images.length < TOTAL_ROUNDS) {
-      console.error('Not enough images');
+      console.error("Not enough images");
       return;
     }
 
-    setGameState(prev => ({
+    setGameState((prev) => ({
       ...prev,
-      status: 'playing',
+      status: "playing",
       currentRound: 1,
       score: 0,
       currentImage: images[0],
@@ -85,43 +85,46 @@ export function useSoloGame() {
     timer.restart(TIME_PER_ROUND);
   }, [images, timer]);
 
-  const submitVote = useCallback((vote: ImageType) => {
-    if (gameState.status !== 'playing' || gameState.userVote) return;
+  const submitVote = useCallback(
+    (vote: ImageType) => {
+      if (gameState.status !== "playing" || gameState.userVote) return;
 
-    timer.stop();
+      timer.stop();
 
-    const isCorrect = vote === gameState.currentImage?.type;
-    const newScore = isCorrect ? gameState.score + 1 : gameState.score;
-    const newResult = {
-      image: gameState.currentImage!,
-      userVote: vote,
-      isCorrect,
-    };
+      const isCorrect = vote === gameState.currentImage?.type;
+      const newScore = isCorrect ? gameState.score + 1 : gameState.score;
+      const newResult = {
+        image: gameState.currentImage!,
+        userVote: vote,
+        isCorrect,
+      };
 
-    setGameState(prev => ({
-      ...prev,
-      status: 'showing-result',
-      userVote: vote,
-      isCorrect,
-      score: newScore,
-      results: [...prev.results, newResult],
-    }));
-  }, [gameState, timer]);
+      setGameState((prev) => ({
+        ...prev,
+        status: "showing-result",
+        userVote: vote,
+        isCorrect,
+        score: newScore,
+        results: [...prev.results, newResult],
+      }));
+    },
+    [gameState, timer],
+  );
 
   const nextRound = useCallback(() => {
     const nextRoundNum = gameState.currentRound + 1;
 
     if (nextRoundNum > TOTAL_ROUNDS) {
-      setGameState(prev => ({
+      setGameState((prev) => ({
         ...prev,
-        status: 'finished',
+        status: "finished",
       }));
       return;
     }
 
-    setGameState(prev => ({
+    setGameState((prev) => ({
       ...prev,
-      status: 'playing',
+      status: "playing",
       currentRound: nextRoundNum,
       currentImage: images[nextRoundNum - 1],
       userVote: null,
@@ -134,7 +137,7 @@ export function useSoloGame() {
   const resetGame = useCallback(() => {
     loadImages();
     setGameState({
-      status: 'loading',
+      status: "loading",
       currentRound: 0,
       totalRounds: TOTAL_ROUNDS,
       score: 0,

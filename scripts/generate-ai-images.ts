@@ -1,20 +1,20 @@
 /**
- * Script to generate AI images using Google's Imagen API (Gemini with image generation)
- * 
+ * Script to generate AI images using Google's Gemini 3 Pro Image API
+ *
  * Usage: bun run scripts/generate-ai-images.ts [count]
- * 
+ *
  * Environment variables required:
  * - GOOGLE_API_KEY: Your Google AI API key
- * 
+ *
  * Example: GOOGLE_API_KEY=your_key bun run scripts/generate-ai-images.ts 10
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import sharp from 'sharp';
-import fs from 'fs';
-import path from 'path';
+import { GoogleGenAI } from "@google/genai";
+import sharp from "sharp";
+import fs from "fs";
+import path from "path";
 
-const OUTPUT_DIR = path.join(process.cwd(), 'public', 'images', 'ai');
+const OUTPUT_DIR = path.join(process.cwd(), "public", "images", "ai");
 const TARGET_WIDTH = 1280;
 const TARGET_HEIGHT = 720; // 16:9 aspect ratio
 
@@ -47,11 +47,14 @@ const IMAGE_PROMPTS = [
   "A photorealistic meadow with wildflowers and butterflies",
 ];
 
-async function processImage(imageBuffer: Buffer, outputPath: string): Promise<void> {
+async function processImage(
+  imageBuffer: Buffer,
+  outputPath: string,
+): Promise<void> {
   await sharp(imageBuffer)
     .resize(TARGET_WIDTH, TARGET_HEIGHT, {
-      fit: 'cover',
-      position: 'center',
+      fit: "cover",
+      position: "center",
     })
     .jpeg({
       quality: 85,
@@ -62,10 +65,12 @@ async function processImage(imageBuffer: Buffer, outputPath: string): Promise<vo
 
 async function generateImages(count: number): Promise<void> {
   const apiKey = process.env.GOOGLE_API_KEY;
-  
+
   if (!apiKey) {
-    console.error('Error: GOOGLE_API_KEY environment variable is required');
-    console.log('Usage: GOOGLE_API_KEY=your_key bun run scripts/generate-ai-images.ts [count]');
+    console.error("Error: GOOGLE_API_KEY environment variable is required");
+    console.log(
+      "Usage: GOOGLE_API_KEY=your_key bun run scripts/generate-ai-images.ts [count]",
+    );
     process.exit(1);
   }
 
@@ -74,20 +79,18 @@ async function generateImages(count: number): Promise<void> {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  // Use Imagen 3 model for image generation
-  const model = genAI.getGenerativeModel({ 
-    model: "gemini-2.0-flash-exp-image-generation",
-    generationConfig: {
-      responseModalities: ["image", "text"],
-    } as any,
+  const ai = new GoogleGenAI({
+    apiKey: apiKey,
   });
+
+  const model = "gemini-3-pro-image-preview";
 
   console.log(`\n🍌 Generating ${count} AI images...\n`);
 
   // Get existing images to determine starting index
-  const existingFiles = fs.readdirSync(OUTPUT_DIR).filter(f => f.endsWith('.jpg'));
+  const existingFiles = fs
+    .readdirSync(OUTPUT_DIR)
+    .filter((f) => f.endsWith(".jpg"));
   let startIndex = existingFiles.length;
 
   let successCount = 0;
@@ -96,50 +99,88 @@ async function generateImages(count: number): Promise<void> {
   for (let i = 0; i < count; i++) {
     const promptIndex = (startIndex + i) % IMAGE_PROMPTS.length;
     const prompt = IMAGE_PROMPTS[promptIndex];
-    const filename = `ai_${String(startIndex + i).padStart(4, '0')}.jpg`;
+    const filename = `ai_${String(startIndex + i).padStart(4, "0")}.jpg`;
     const outputPath = path.join(OUTPUT_DIR, filename);
 
-    console.log(`[${i + 1}/${count}] Generating: "${prompt.substring(0, 50)}..."`);
+    console.log(
+      `[${i + 1}/${count}] Generating: "${prompt.substring(0, 50)}..."`,
+    );
 
     try {
-      const result = await model.generateContent(prompt);
-      const response = result.response;
-      
-      // Extract image from response
-      const parts = response.candidates?.[0]?.content?.parts;
-      if (!parts) {
-        throw new Error('No response parts received');
-      }
+      const tools = [
+        {
+          googleSearch: {},
+        },
+      ];
+
+      const config = {
+        responseModalities: ["IMAGE", "TEXT"],
+        imageConfig: {
+          aspectRatio: "16:9",
+          imageSize: "1K",
+        },
+        tools,
+      };
+
+      const contents = [
+        {
+          role: "user",
+          parts: [
+            {
+              text: prompt,
+            },
+          ],
+        },
+      ];
+
+      const response = await ai.models.generateContentStream({
+        model,
+        config,
+        contents,
+      });
 
       let imageData: Buffer | null = null;
-      
-      for (const part of parts) {
-        if (part.inlineData?.mimeType?.startsWith('image/')) {
-          imageData = Buffer.from(part.inlineData.data, 'base64');
-          break;
+
+      for await (const chunk of response) {
+        if (
+          !chunk.candidates ||
+          !chunk.candidates[0].content ||
+          !chunk.candidates[0].content.parts
+        ) {
+          continue;
+        }
+
+        if (chunk.candidates?.[0]?.content?.parts?.[0]?.inlineData) {
+          const inlineData = chunk.candidates[0].content.parts[0].inlineData;
+          if (inlineData.mimeType?.startsWith("image/")) {
+            imageData = Buffer.from(inlineData.data || "", "base64");
+            break;
+          }
         }
       }
 
       if (!imageData) {
-        throw new Error('No image data in response');
+        throw new Error("No image data in response");
       }
 
       // Process and save image
       await processImage(imageData, outputPath);
-      
+
       console.log(`   ✅ Saved: ${filename}`);
       successCount++;
 
       // Rate limiting - wait between requests
       if (i < count - 1) {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       }
     } catch (error) {
-      console.log(`   ❌ Failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.log(
+        `   ❌ Failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
       failCount++;
-      
+
       // Wait longer after errors
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     }
   }
 
@@ -150,10 +191,10 @@ async function generateImages(count: number): Promise<void> {
 }
 
 // Parse command line arguments
-const count = parseInt(process.argv[2] || '10', 10);
+const count = parseInt(process.argv[2] || "10", 10);
 
 if (isNaN(count) || count < 1) {
-  console.error('Error: Please provide a valid number of images to generate');
+  console.error("Error: Please provide a valid number of images to generate");
   process.exit(1);
 }
 

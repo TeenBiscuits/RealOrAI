@@ -1,39 +1,39 @@
 /**
  * Script to download real images from Unsplash API
- * 
+ *
  * Usage: bun run scripts/download-real-images.ts [count]
- * 
+ *
  * Environment variables required:
  * - UNSPLASH_ACCESS_KEY: Your Unsplash API access key
- * 
+ *
  * Example: UNSPLASH_ACCESS_KEY=your_key bun run scripts/download-real-images.ts 10
  */
 
-import sharp from 'sharp';
-import fs from 'fs';
-import path from 'path';
+import sharp from "sharp";
+import fs from "fs";
+import path from "path";
 
-const OUTPUT_DIR = path.join(process.cwd(), 'public', 'images', 'real');
+const OUTPUT_DIR = path.join(process.cwd(), "public", "images", "real");
 const TARGET_WIDTH = 1280;
 const TARGET_HEIGHT = 720; // 16:9 aspect ratio
 
 // Topics for diverse real images
 const TOPICS = [
-  'nature',
-  'architecture',
-  'people',
-  'animals',
-  'food',
-  'travel',
-  'street-photography',
-  'landscape',
-  'portraits',
-  'city',
-  'ocean',
-  'mountains',
-  'forest',
-  'wildlife',
-  'flowers',
+  "nature",
+  "architecture",
+  "people",
+  "animals",
+  "food",
+  "travel",
+  "street-photography",
+  "landscape",
+  "portraits",
+  "city",
+  "ocean",
+  "mountains",
+  "forest",
+  "wildlife",
+  "flowers",
 ];
 
 interface UnsplashPhoto {
@@ -53,11 +53,14 @@ interface UnsplashResponse {
   results: UnsplashPhoto[];
 }
 
-async function processImage(imageBuffer: Buffer, outputPath: string): Promise<void> {
+async function processImage(
+  imageBuffer: Buffer,
+  outputPath: string,
+): Promise<void> {
   await sharp(imageBuffer)
     .resize(TARGET_WIDTH, TARGET_HEIGHT, {
-      fit: 'cover',
-      position: 'center',
+      fit: "cover",
+      position: "center",
     })
     .jpeg({
       quality: 85,
@@ -66,12 +69,16 @@ async function processImage(imageBuffer: Buffer, outputPath: string): Promise<vo
     .toFile(outputPath);
 }
 
-async function fetchRandomPhotos(accessKey: string, query: string, count: number): Promise<UnsplashPhoto[]> {
+async function fetchRandomPhotos(
+  accessKey: string,
+  query: string,
+  count: number,
+): Promise<UnsplashPhoto[]> {
   const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=${count}&orientation=landscape`;
-  
+
   const response = await fetch(url, {
     headers: {
-      'Authorization': `Client-ID ${accessKey}`,
+      Authorization: `Client-ID ${accessKey}`,
     },
   });
 
@@ -84,12 +91,15 @@ async function fetchRandomPhotos(accessKey: string, query: string, count: number
   return data.results;
 }
 
-async function downloadAndProcessImage(photo: UnsplashPhoto, outputPath: string): Promise<void> {
+async function downloadAndProcessImage(
+  photo: UnsplashPhoto,
+  outputPath: string,
+): Promise<void> {
   // Use the raw URL with parameters for optimal quality
   const imageUrl = `${photo.urls.raw}&w=${TARGET_WIDTH * 2}&h=${TARGET_HEIGHT * 2}&fit=crop&crop=entropy`;
-  
+
   const response = await fetch(imageUrl);
-  
+
   if (!response.ok) {
     throw new Error(`Failed to download image: ${response.status}`);
   }
@@ -100,11 +110,15 @@ async function downloadAndProcessImage(photo: UnsplashPhoto, outputPath: string)
 
 async function downloadImages(count: number): Promise<void> {
   const accessKey = process.env.UNSPLASH_ACCESS_KEY;
-  
+
   if (!accessKey) {
-    console.error('Error: UNSPLASH_ACCESS_KEY environment variable is required');
-    console.log('Usage: UNSPLASH_ACCESS_KEY=your_key bun run scripts/download-real-images.ts [count]');
-    console.log('\nGet your API key at: https://unsplash.com/developers');
+    console.error(
+      "Error: UNSPLASH_ACCESS_KEY environment variable is required",
+    );
+    console.log(
+      "Usage: UNSPLASH_ACCESS_KEY=your_key bun run scripts/download-real-images.ts [count]",
+    );
+    console.log("\nGet your API key at: https://unsplash.com/developers");
     process.exit(1);
   }
 
@@ -116,7 +130,9 @@ async function downloadImages(count: number): Promise<void> {
   console.log(`\n📷 Downloading ${count} real images from Unsplash...\n`);
 
   // Get existing images to determine starting index
-  const existingFiles = fs.readdirSync(OUTPUT_DIR).filter(f => f.endsWith('.jpg'));
+  const existingFiles = fs
+    .readdirSync(OUTPUT_DIR)
+    .filter((f) => f.endsWith(".jpg"));
   let startIndex = existingFiles.length;
 
   // Track already downloaded image IDs to avoid duplicates
@@ -136,41 +152,47 @@ async function downloadImages(count: number): Promise<void> {
 
     try {
       const photos = await fetchRandomPhotos(accessKey, topic, imagesPerTopic);
-      
+
       for (const photo of photos) {
         if (successCount >= count) break;
         if (downloadedIds.has(photo.id)) continue;
 
-        const filename = `real_${String(currentIndex).padStart(4, '0')}.jpg`;
+        const filename = `real_${String(currentIndex).padStart(4, "0")}.jpg`;
         const outputPath = path.join(OUTPUT_DIR, filename);
 
-        console.log(`   [${successCount + 1}/${count}] Downloading from @${photo.user.username}...`);
+        console.log(
+          `   [${successCount + 1}/${count}] Downloading from @${photo.user.username}...`,
+        );
 
         try {
           await downloadAndProcessImage(photo, outputPath);
           downloadedIds.add(photo.id);
-          
+
           console.log(`   ✅ Saved: ${filename}`);
           successCount++;
           currentIndex++;
 
           // Rate limiting
-          await new Promise(resolve => setTimeout(resolve, 500));
+          await new Promise((resolve) => setTimeout(resolve, 500));
         } catch (error) {
-          console.log(`   ❌ Failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          console.log(
+            `   ❌ Failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+          );
           failCount++;
         }
       }
 
       // Rate limiting between topics
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (error) {
-      console.log(`   ❌ Topic failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.log(
+        `   ❌ Topic failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
     }
   }
 
   // Create attribution file
-  const attributionPath = path.join(OUTPUT_DIR, 'ATTRIBUTION.md');
+  const attributionPath = path.join(OUTPUT_DIR, "ATTRIBUTION.md");
   const attributionContent = `# Image Attribution
 
 These images are sourced from [Unsplash](https://unsplash.com) and are used under the [Unsplash License](https://unsplash.com/license).
@@ -190,10 +212,10 @@ Total images: ${successCount}
 }
 
 // Parse command line arguments
-const count = parseInt(process.argv[2] || '10', 10);
+const count = parseInt(process.argv[2] || "10", 10);
 
 if (isNaN(count) || count < 1) {
-  console.error('Error: Please provide a valid number of images to download');
+  console.error("Error: Please provide a valid number of images to download");
   process.exit(1);
 }
 

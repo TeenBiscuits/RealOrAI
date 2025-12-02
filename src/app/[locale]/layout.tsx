@@ -20,6 +20,18 @@ export const metadata: Metadata = {
   title: "📷 Real or AI 🍌",
   description:
     "Can you tell the difference between real photos and AI-generated images?",
+  icons: {
+    icon: [
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
+  },
+  appleWebApp: {
+    title: "Real or AI",
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "📷 Real or AI 🍌",
     description:

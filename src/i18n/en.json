@@ -14,6 +14,9 @@
     "howToPlayDescription": "You'll see 12 images. For each one, decide if it's a real photo or AI-generated. You have 30 seconds per image. Good luck!"
   },
   "game": {
+    "title": "📷 Real o IA 🍌",
+    "subtitle": "12 images. 30 seconds each. Can you spot the AI?",
+    "back": "Back",
     "round": "Round",
     "of": "of",
     "timeLeft": "Time left",
@@ -31,12 +34,19 @@
     "outOf": "out of",
     "correct_plural": "correct",
     "percentage": "That's",
+    "play": "Start Game",
     "playAgain": "Play Again",
     "backToHome": "Back to Home",
     "timesUp": "Time's up!",
-    "waiting": "Waiting for next round..."
+    "waiting": "Waiting for next round...",
+    "perfect": "Perfect!",
+    "great": "Great!",
+    "nice": "Nice!",
+    "keep": "Keep trying!",
+    "fooled": "AI fooled you!"
   },
   "host": {
+    "back": "Back",
     "scanToJoin": "Scan to Join",
     "orGoTo": "Or go to",
     "roomCode": "Room Code",
@@ -63,6 +73,7 @@
   },
   "leaderboard": {
     "title": "Leaderboard",
+    "correct": "correct",
     "rank": "Rank",
     "player": "Player",
     "score": "Score",

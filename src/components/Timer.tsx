@@ -1,4 +1,6 @@
-'use client';
+"use client";
+
+import { useTranslations } from "next-intl";
 
 interface TimerProps {
   timeLeft: number;
@@ -6,6 +8,7 @@ interface TimerProps {
 }
 
 export function Timer({ timeLeft, totalTime = 30 }: TimerProps) {
+  const t = useTranslations("game");
   const percentage = (timeLeft / totalTime) * 100;
   const isLow = timeLeft <= 10;
   const isCritical = timeLeft <= 5;
@@ -13,14 +16,16 @@ export function Timer({ timeLeft, totalTime = 30 }: TimerProps) {
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-gray-500">Time left</span>
+        <span className="text-sm font-medium text-gray-500">
+          {t("timeLeft")}
+        </span>
         <span
           className={`text-2xl font-bold tabular-nums ${
             isCritical
-              ? 'text-red-600 animate-pulse'
+              ? "text-red-600 animate-pulse"
               : isLow
-              ? 'text-amber-600'
-              : 'text-gray-900'
+                ? "text-amber-600"
+                : "text-gray-900"
           }`}
         >
           {timeLeft}s
@@ -30,10 +35,10 @@ export function Timer({ timeLeft, totalTime = 30 }: TimerProps) {
         <div
           className={`h-full transition-all duration-1000 ease-linear rounded-full ${
             isCritical
-              ? 'bg-red-500'
+              ? "bg-red-500"
               : isLow
-              ? 'bg-amber-500'
-              : 'bg-gradient-to-r from-green-500 to-emerald-400'
+                ? "bg-amber-500"
+                : "bg-gradient-to-r from-green-500 to-emerald-400"
           }`}
           style={{ width: `${percentage}%` }}
         />

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { locales, type Locale } from '@/i18n/config';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { locales, type Locale } from "@/i18n/config";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -18,7 +18,29 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "📷 Real or AI 🍌",
-  description: "Can you tell the difference between real photos and AI-generated images?",
+  description:
+    "Can you tell the difference between real photos and AI-generated images?",
+  openGraph: {
+    title: "📷 Real or AI 🍌",
+    description:
+      "Can you tell the difference between real photos and AI-generated images?",
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Real or AI",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "📷 Real or AI 🍌",
+    description:
+      "Can you tell the difference between real photos and AI-generated images?",
+    images: ["/og.jpg"],
+  },
 };
 
 interface LayoutProps {
@@ -26,12 +48,9 @@ interface LayoutProps {
   params: Promise<{ locale: string }>;
 }
 
-export default async function LocaleLayout({
-  children,
-  params,
-}: LayoutProps) {
+export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { locale } = await params;
-  
+
   if (!locales.includes(locale as Locale)) {
     notFound();
   }

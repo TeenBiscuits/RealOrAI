@@ -9,6 +9,7 @@ import { GameImage } from "@/components/GameImage";
 import { Timer } from "@/components/Timer";
 import { Leaderboard } from "@/components/Leaderboard";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import type {
   WSMessage,
@@ -186,8 +187,11 @@ export default function HostPage() {
             href="/"
             className="text-gray-600 hover:text-gray-900 transition-colors"
           >
-            ← Back
+            ← {t("back")}
           </Link>
+          <div className="text-center text-2xl font-bold text-gray-900">
+            {tGame("title")}
+          </div>
           <LanguageSwitcher />
         </header>
 
@@ -212,6 +216,8 @@ export default function HostPage() {
             </button>
           </div>
         </div>
+
+        <Footer />
       </main>
     );
   }
@@ -239,6 +245,8 @@ export default function HostPage() {
             </Link>
           </div>
         </div>
+
+        <Footer />
       </main>
     );
   }
@@ -258,7 +266,7 @@ export default function HostPage() {
             {state.voteCount}/{state.players.length} {t("votes")}
           </span>
         </div>
-        <div className="text-2xl font-bold text-gray-900">📷 Real or AI 🍌</div>
+        <div className="text-2xl font-bold text-gray-900">{tGame("title")}</div>
       </header>
 
       {/* Timer */}
@@ -298,6 +306,8 @@ export default function HostPage() {
           showVoteStatus={state.status === "playing"}
         />
       </div>
+
+      <Footer />
     </main>
   );
 }

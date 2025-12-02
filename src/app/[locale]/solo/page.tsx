@@ -1,22 +1,24 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import { useSoloGame } from '@/hooks/useSoloGame';
-import { Timer } from '@/components/Timer';
-import { GameImage } from '@/components/GameImage';
-import { VoteButtons } from '@/components/VoteButtons';
-import { ResultFeedback } from '@/components/ResultFeedback';
-import { ScoreDisplay } from '@/components/ScoreDisplay';
-import { FinalScore } from '@/components/FinalScore';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import Link from 'next/link';
+import { useTranslations } from "next-intl";
+import { useSoloGame } from "@/hooks/useSoloGame";
+import { Timer } from "@/components/Timer";
+import { GameImage } from "@/components/GameImage";
+import { VoteButtons } from "@/components/VoteButtons";
+import { ResultFeedback } from "@/components/ResultFeedback";
+import { ScoreDisplay } from "@/components/ScoreDisplay";
+import { FinalScore } from "@/components/FinalScore";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Footer } from "@/components/Footer";
+import Link from "next/link";
 
 export default function SoloPage() {
-  const t = useTranslations('game');
-  const { gameState, timeLeft, startGame, submitVote, nextRound, resetGame } = useSoloGame();
+  const t = useTranslations("game");
+  const { gameState, timeLeft, startGame, submitVote, nextRound, resetGame } =
+    useSoloGame();
 
   // Loading state
-  if (gameState.status === 'loading') {
+  if (gameState.status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center space-y-4">
@@ -28,36 +30,38 @@ export default function SoloPage() {
   }
 
   // Ready state - show start button
-  if (gameState.status === 'ready') {
+  if (gameState.status === "ready") {
     return (
       <main className="min-h-screen flex flex-col bg-gray-50">
         <header className="p-4 flex justify-between items-center">
-          <Link href="/" className="text-gray-600 hover:text-gray-900 transition-colors">
-            ← Back
+          <Link
+            href="/"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            ← {t("back")}
           </Link>
           <LanguageSwitcher />
         </header>
 
         <div className="flex-1 flex items-center justify-center p-8">
           <div className="text-center space-y-8 max-w-md">
-            <h1 className="text-4xl font-bold text-gray-900">📷 Real or AI 🍌</h1>
-            <p className="text-gray-600 text-lg">
-              12 images. 30 seconds each. Can you spot the AI?
-            </p>
+            <h1 className="text-6xl font-bold text-gray-900">{t("title")}</h1>
+            <p className="text-gray-600 text-lg">{t("description")}</p>
             <button
               onClick={startGame}
               className="w-full py-6 bg-blue-600 text-white font-bold text-2xl rounded-2xl hover:bg-blue-700 transition-all transform hover:scale-105 shadow-material-2 animate-pulse-glow"
             >
-              Start Game
+              {t("play")}
             </button>
           </div>
         </div>
+        <Footer />
       </main>
     );
   }
 
   // Finished state - show final score
-  if (gameState.status === 'finished') {
+  if (gameState.status === "finished") {
     return (
       <main className="min-h-screen flex flex-col bg-gray-50">
         <header className="p-4 flex justify-end">
@@ -71,6 +75,8 @@ export default function SoloPage() {
             onPlayAgain={resetGame}
           />
         </div>
+
+        <Footer />
       </main>
     );
   }
@@ -85,9 +91,7 @@ export default function SoloPage() {
           totalRounds={gameState.totalRounds}
           currentRound={gameState.currentRound}
         />
-        {gameState.status === 'playing' && (
-          <Timer timeLeft={timeLeft} />
-        )}
+        {gameState.status === "playing" && <Timer timeLeft={timeLeft} />}
       </header>
 
       {/* Game content */}
@@ -97,13 +101,13 @@ export default function SoloPage() {
           <GameImage
             src={gameState.currentImage.src}
             alt={gameState.currentImage.alt}
-            showResult={gameState.status === 'showing-result'}
-            isReal={gameState.currentImage.type === 'real'}
+            showResult={gameState.status === "showing-result"}
+            isReal={gameState.currentImage.type === "real"}
           />
         )}
 
         {/* Vote buttons or Result */}
-        {gameState.status === 'playing' && (
+        {gameState.status === "playing" && (
           <VoteButtons
             onVote={submitVote}
             disabled={gameState.userVote !== null}
@@ -112,14 +116,15 @@ export default function SoloPage() {
           />
         )}
 
-        {gameState.status === 'showing-result' && gameState.isCorrect !== null && (
-          <ResultFeedback
-            isCorrect={gameState.isCorrect}
-            wasReal={gameState.currentImage?.type === 'real'}
-            onNext={nextRound}
-            isLastRound={gameState.currentRound >= gameState.totalRounds}
-          />
-        )}
+        {gameState.status === "showing-result" &&
+          gameState.isCorrect !== null && (
+            <ResultFeedback
+              isCorrect={gameState.isCorrect}
+              wasReal={gameState.currentImage?.type === "real"}
+              onNext={nextRound}
+              isLastRound={gameState.currentRound >= gameState.totalRounds}
+            />
+          )}
       </div>
     </main>
   );

@@ -14,6 +14,9 @@
     "howToPlayDescription": "Verás 12 imágenes. Para cada una, decide si es una foto real o generada por IA. Tienes 30 segundos por imagen. ¡Buena suerte!"
   },
   "game": {
+    "title": "📷 Real o IA 🍌",
+    "description": "12 imágenes. 30 segundos cada una. ¿Puedes detectar la IA?",
+    "back": "Atrás",
     "round": "Ronda",
     "of": "de",
     "timeLeft": "Tiempo restante",
@@ -31,12 +34,19 @@
     "outOf": "de",
     "correct_plural": "correctas",
     "percentage": "Eso es",
+    "play": "Empezar el juego",
     "playAgain": "Jugar de Nuevo",
     "backToHome": "Volver al Inicio",
     "timesUp": "¡Se acabó el tiempo!",
-    "waiting": "Esperando siguiente ronda..."
+    "waiting": "Esperando siguiente ronda...",
+    "perfect": "¡Perfecto!",
+    "great": "¡Genial!",
+    "nice": "¡Bien!",
+    "keep": "¡Sigue intentando!",
+    "fooled": "¡La IA te engañó!"
   },
   "host": {
+    "back": "Atrás",
     "scanToJoin": "Escanea para Unirte",
     "orGoTo": "O ve a",
     "roomCode": "Código de Sala",
@@ -63,6 +73,7 @@
   },
   "leaderboard": {
     "title": "Tabla de Posiciones",
+    "correct": "correctas",
     "rank": "Posición",
     "player": "Jugador",
     "score": "Puntuación",

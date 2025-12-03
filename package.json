@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@google/genai": "^1.30.0",
-    "next": "16.0.5",
-    "next-intl": "^4.5.7",
+    "next": "16.0.7",
+    "next-intl": "^4.5.8",
     "qrcode.react": "^4.2.0",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "sharp": "^0.34.5",
     "uuid": "^13.0.0",
     "ws": "^8.18.3"
@@ -30,10 +30,10 @@
     "@types/react-dom": "^19.2.3",
     "@types/uuid": "^11.0.0",
     "@types/ws": "^8.18.1",
-    "baseline-browser-mapping": "^2.8.32",
+    "baseline-browser-mapping": "^2.9.0",
     "eslint": "^9.39.1",
-    "eslint-config-next": "16.0.5",
-    "prettier": "3.7.3",
+    "eslint-config-next": "16.0.7",
+    "prettier": "3.7.4",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3"
   }

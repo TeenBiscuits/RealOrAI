@@ -8,9 +8,12 @@ const rooms = new Map<string, RoomState>();
 const TOTAL_ROUNDS = 12;
 const TIME_PER_ROUND = 30;
 
-export function createRoom(hostId: string): RoomState {
+export function createRoom(
+  hostId: string,
+  excludeImageIds: string[] = [],
+): RoomState {
   const roomId = generateRoomCode();
-  const images = selectGameImages(TOTAL_ROUNDS);
+  const images = selectGameImages(TOTAL_ROUNDS, excludeImageIds);
 
   const room: RoomState = {
     roomId,

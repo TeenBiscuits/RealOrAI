@@ -212,10 +212,13 @@ app.prepare().then(() => {
 
         switch (message.type) {
           case "room:create": {
-            const { hostId } = message.payload as { hostId: string };
+            const { hostId, excludeImageIds } = message.payload as {
+              hostId: string;
+              excludeImageIds?: string[];
+            };
             console.log(`[WebSocket] room:create - hostId: ${hostId}`);
 
-            const room = createRoom(hostId);
+            const room = createRoom(hostId, excludeImageIds || []);
             console.log(`[WebSocket] Room created - roomId: ${room.roomId}`);
 
             ws.roomId = room.roomId;
@@ -228,7 +231,11 @@ app.prepare().then(() => {
 
             sendTo(ws, {
               type: "room:created",
-              payload: { roomId: room.roomId, hostId: room.hostId },
+              payload: {
+                roomId: room.roomId,
+                hostId: room.hostId,
+                imageIds: room.images.map((img) => img.id),
+              },
             });
             break;
           }

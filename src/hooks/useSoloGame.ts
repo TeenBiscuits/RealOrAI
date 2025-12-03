@@ -1,6 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import { useTimer } from "./useTimer";
 import type { GameImage, ImageType } from "@/lib/types";
+import {
+  getSeenImageIds,
+  markImagesAsSeen,
+  resetSeenImages,
+} from "@/lib/seenImages";
 
 interface SoloGameState {
   status: "loading" | "ready" | "playing" | "showing-result" | "finished";
@@ -50,12 +55,19 @@ export function useSoloGame() {
 
   const loadImages = async () => {
     try {
-      const response = await fetch("/api/images");
-      const data = await response.json();
+      // Get list of already seen image IDs
+      const seenIds = getSeenImageIds();
 
-      // We need to fetch the full images with types from server
-      // For solo mode, we'll fetch them with a special flag
-      const fullResponse = await fetch("/api/images?includeTypes=true");
+      // Build URL with exclude parameter
+      const params = new URLSearchParams({
+        includeTypes: "true",
+      });
+
+      if (seenIds.length > 0) {
+        params.set("excludeIds", encodeURIComponent(JSON.stringify(seenIds)));
+      }
+
+      const fullResponse = await fetch(`/api/images?${params.toString()}`);
       const fullData = await fullResponse.json();
 
       setImages(fullData);
@@ -115,6 +127,10 @@ export function useSoloGame() {
     const nextRoundNum = gameState.currentRound + 1;
 
     if (nextRoundNum > TOTAL_ROUNDS) {
+      // Mark all played images as seen
+      const playedImageIds = images.map((img) => img.id);
+      markImagesAsSeen(playedImageIds);
+
       setGameState((prev) => ({
         ...prev,
         status: "finished",

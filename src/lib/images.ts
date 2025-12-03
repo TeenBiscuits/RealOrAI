@@ -53,16 +53,42 @@ export function shuffleArray<T>(array: T[]): T[] {
 }
 
 // Select images for a game (50/50 split, 12 total by default)
-export function selectGameImages(totalRounds: number = 12): GameImage[] {
+// excludeIds: optional array of image IDs to exclude (for no-repeat functionality)
+export function selectGameImages(
+  totalRounds: number = 12,
+  excludeIds: string[] = [],
+): GameImage[] {
   const allImages = getAvailableImages();
-  const realImages = shuffleArray(
-    allImages.filter((img) => img.type === "real"),
+
+  // Filter out excluded images
+  const availableImages = allImages.filter(
+    (img) => !excludeIds.includes(img.id),
   );
-  const aiImages = shuffleArray(allImages.filter((img) => img.type === "ai"));
+
+  // Separate by type
+  let realImages = availableImages.filter((img) => img.type === "real");
+  let aiImages = availableImages.filter((img) => img.type === "ai");
 
   const halfRounds = Math.floor(totalRounds / 2);
-  const selectedReal = realImages.slice(0, halfRounds);
-  const selectedAI = aiImages.slice(0, totalRounds - halfRounds);
+
+  // If we don't have enough unseen images, reset and use all images
+  if (
+    realImages.length < halfRounds ||
+    aiImages.length < totalRounds - halfRounds
+  ) {
+    console.log(
+      "Not enough unseen images, resetting to use all available images",
+    );
+    realImages = allImages.filter((img) => img.type === "real");
+    aiImages = allImages.filter((img) => img.type === "ai");
+  }
+
+  // Shuffle and select
+  const shuffledReal = shuffleArray(realImages);
+  const shuffledAI = shuffleArray(aiImages);
+
+  const selectedReal = shuffledReal.slice(0, halfRounds);
+  const selectedAI = shuffledAI.slice(0, totalRounds - halfRounds);
 
   // Combine and shuffle for random order
   return shuffleArray([...selectedReal, ...selectedAI]);

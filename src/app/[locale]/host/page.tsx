@@ -11,6 +11,7 @@ import { Leaderboard } from "@/components/Leaderboard";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
+import { getSeenImageIds, markImagesAsSeen } from "@/lib/seenImages";
 import type {
   WSMessage,
   Player,
@@ -36,6 +37,7 @@ interface HostState {
   timeLeft: number;
   voteCount: number;
   correctAnswer: ImageType | null;
+  imageIds: string[];
 }
 
 export default function HostPage() {
@@ -53,17 +55,23 @@ export default function HostPage() {
     timeLeft: 30,
     voteCount: 0,
     correctAnswer: null,
+    imageIds: [],
   });
 
   const handleMessage = useCallback((message: WSMessage) => {
     switch (message.type) {
       case "room:created": {
-        const payload = message.payload as { roomId: string; hostId: string };
+        const payload = message.payload as {
+          roomId: string;
+          hostId: string;
+          imageIds: string[];
+        };
         setState((prev) => ({
           ...prev,
           status: "lobby",
           roomId: payload.roomId,
           hostId: payload.hostId,
+          imageIds: payload.imageIds || [],
         }));
         break;
       }
@@ -128,11 +136,18 @@ export default function HostPage() {
 
       case "game:end": {
         const payload = message.payload as { players: Player[] };
-        setState((prev) => ({
-          ...prev,
-          status: "finished",
-          players: payload.players,
-        }));
+        setState((prev) => {
+          // Mark all game images as seen
+          if (prev.imageIds.length > 0) {
+            markImagesAsSeen(prev.imageIds);
+          }
+
+          return {
+            ...prev,
+            status: "finished",
+            players: payload.players,
+          };
+        });
         break;
       }
     }
@@ -147,11 +162,13 @@ export default function HostPage() {
   useEffect(() => {
     if (isConnected && !state.roomId) {
       const hostId = crypto.randomUUID();
+      const excludeImageIds = getSeenImageIds();
       console.log("[Host] Creating room via WebSocket, hostId:", hostId);
+      console.log("[Host] Excluding seen images:", excludeImageIds.length);
 
       send({
         type: "room:create",
-        payload: { hostId },
+        payload: { hostId, excludeImageIds },
       });
     }
   }, [isConnected, state.roomId, send]);

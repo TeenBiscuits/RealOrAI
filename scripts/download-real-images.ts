@@ -29,11 +29,15 @@ const TOPICS = [
   "landscape",
   "portraits",
   "city",
-  "ocean",
   "mountains",
   "forest",
   "wildlife",
   "flowers",
+  "film",
+  "the-holidays-illustrations",
+  "hand-drawn",
+  "fashion-beauty",
+  "textures-patterns",
 ];
 
 interface UnsplashPhoto {
@@ -138,6 +142,14 @@ async function downloadImages(count: number): Promise<void> {
   // Track already downloaded image IDs to avoid duplicates
   const downloadedIds = new Set<string>();
 
+  // Track attribution information for each image
+  const attributions: Array<{
+    filename: string;
+    username: string;
+    name: string;
+    link: string;
+  }> = [];
+
   let successCount = 0;
   let failCount = 0;
   let currentIndex = startIndex;
@@ -168,6 +180,14 @@ async function downloadImages(count: number): Promise<void> {
           await downloadAndProcessImage(photo, outputPath);
           downloadedIds.add(photo.id);
 
+          // Store attribution information
+          attributions.push({
+            filename,
+            username: photo.user.username,
+            name: photo.user.name,
+            link: `https://unsplash.com/@${photo.user.username}`,
+          });
+
           console.log(`   ✅ Saved: ${filename}`);
           successCount++;
           currentIndex++;
@@ -193,6 +213,15 @@ async function downloadImages(count: number): Promise<void> {
 
   // Create attribution file
   const attributionPath = path.join(OUTPUT_DIR, "ATTRIBUTION.md");
+
+  let imageList = "";
+  if (attributions.length > 0) {
+    imageList = "\n## Images\n\n";
+    for (const attr of attributions) {
+      imageList += `- **${attr.filename}** - Photo by [${attr.name}](${attr.link}) (@${attr.username}) on [Unsplash](https://unsplash.com)\n`;
+    }
+  }
+
   const attributionContent = `# Image Attribution
 
 These images are sourced from [Unsplash](https://unsplash.com) and are used under the [Unsplash License](https://unsplash.com/license).
@@ -201,7 +230,7 @@ All photos on Unsplash can be used for free for commercial and non-commercial pu
 
 Downloaded: ${new Date().toISOString()}
 Total images: ${successCount}
-`;
+${imageList}`;
   fs.writeFileSync(attributionPath, attributionContent);
 
   console.log(`\n📊 Results:`);

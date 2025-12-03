@@ -32,17 +32,17 @@ export function FinalScore({
   const grade = getGrade();
 
   return (
-    <div className="text-center space-y-8 max-w-md mx-auto">
+    <div className="mx-auto max-w-md space-y-8 text-center">
       <h2 className="text-4xl font-bold text-gray-900">{t("finalScore")}</h2>
 
       <div className="text-8xl">{grade.emoji}</div>
 
       <div className={`text-2xl font-bold ${grade.color}`}>{t(grade.text)}</div>
 
-      <div className="bg-white rounded-3xl p-8 space-y-4 shadow-material-2 border border-gray-100">
+      <div className="shadow-material-2 space-y-4 rounded-3xl border border-gray-100 bg-white p-8">
         <div className="text-6xl font-bold text-gray-900">{percentage}%</div>
-        <div className="text-gray-600 text-xl">
-          {t("youGot")} <span className="text-gray-900 font-bold">{score}</span>{" "}
+        <div className="text-xl text-gray-600">
+          {t("youGot")} <span className="font-bold text-gray-900">{score}</span>{" "}
           {t("outOf")} {totalRounds} {t("correct_plural")}
         </div>
       </div>
@@ -50,13 +50,13 @@ export function FinalScore({
       <div className="flex flex-col gap-4">
         <button
           onClick={onPlayAgain}
-          className="w-full py-4 bg-blue-600 text-white font-bold text-xl rounded-2xl hover:bg-blue-700 transition-all transform hover:scale-105 shadow-material-2"
+          className="shadow-material-2 w-full transform rounded-2xl bg-blue-600 py-4 text-xl font-bold text-white transition-all hover:scale-105 hover:bg-blue-700"
         >
           {t("playAgain")}
         </button>
         <Link
           href="/"
-          className="w-full py-4 bg-gray-100 text-gray-700 font-bold text-xl rounded-2xl hover:bg-gray-200 transition-all text-center"
+          className="w-full rounded-2xl bg-gray-100 py-4 text-center text-xl font-bold text-gray-700 transition-all hover:bg-gray-200"
         >
           {t("backToHome")}
         </Link>

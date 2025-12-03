@@ -21,10 +21,10 @@ export function GameImage({
   const t = useTranslations("game");
 
   return (
-    <div className="relative w-full aspect-video max-w-4xl mx-auto rounded-2xl overflow-hidden bg-gray-100 shadow-material-3 border border-gray-200">
+    <div className="shadow-material-3 relative mx-auto aspect-video w-full max-w-4xl overflow-hidden rounded-2xl border border-gray-200 bg-gray-100">
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
         </div>
       )}
       <Image
@@ -39,9 +39,9 @@ export function GameImage({
         priority
       />
       {showResult && (
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
           <div
-            className={`text-6xl font-bold px-8 py-4 rounded-2xl text-white shadow-material-3 ${
+            className={`shadow-material-3 rounded-2xl px-8 py-4 text-6xl font-bold text-white ${
               isReal ? "bg-blue-600" : "bg-purple-600"
             }`}
           >

@@ -186,9 +186,9 @@ export default function HostPage() {
   // Creating room
   if (state.status === "creating" || !state.roomId) {
     return (
-      <div className="min-h-dvh flex items-center justify-center bg-gray-50">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin mx-auto" />
+      <div className="flex min-h-dvh items-center justify-center bg-gray-50">
+        <div className="space-y-4 text-center">
+          <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
           <p className="text-gray-600">Creating room...</p>
         </div>
       </div>
@@ -198,11 +198,11 @@ export default function HostPage() {
   // Lobby - waiting for players
   if (state.status === "lobby") {
     return (
-      <main className="min-h-dvh flex flex-col bg-gray-50">
-        <header className="p-4 flex justify-between items-center">
+      <main className="flex min-h-dvh flex-col bg-gray-50">
+        <header className="flex items-center justify-between p-4">
           <Link
             href="/"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-gray-600 transition-colors hover:text-gray-900"
           >
             ← {t("back")}
           </Link>
@@ -212,7 +212,7 @@ export default function HostPage() {
           <LanguageSwitcher />
         </header>
 
-        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 p-8">
+        <div className="flex flex-1 flex-col items-center justify-center gap-8 p-8 lg:flex-row">
           {/* QR Code */}
           <QRCodeDisplay url={getJoinUrl()} roomCode={state.roomId} />
 
@@ -223,10 +223,10 @@ export default function HostPage() {
             <button
               onClick={startGame}
               disabled={state.players.length === 0}
-              className={`w-full py-4 font-bold text-xl rounded-2xl transition-all shadow-material-2 ${
+              className={`shadow-material-2 w-full rounded-2xl py-4 text-xl font-bold transition-all ${
                 state.players.length > 0
-                  ? "bg-green-600 text-white hover:bg-green-700 transform hover:scale-105"
-                  : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  ? "transform bg-green-600 text-white hover:scale-105 hover:bg-green-700"
+                  : "cursor-not-allowed bg-gray-200 text-gray-500"
               }`}
             >
               {state.players.length > 0 ? t("startGame") : t("minPlayers")}
@@ -242,15 +242,15 @@ export default function HostPage() {
   // Game finished - show leaderboard
   if (state.status === "finished") {
     return (
-      <main className="min-h-dvh flex flex-col bg-gray-50">
-        <header className="p-4 flex justify-between items-center">
+      <main className="flex min-h-dvh flex-col bg-gray-50">
+        <header className="flex items-center justify-between p-4">
           <div className="text-2xl font-bold text-gray-900">
             {tGame("title")}
           </div>
           <LanguageSwitcher />
         </header>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-8">
+        <div className="flex flex-1 flex-col items-center justify-center p-8">
           <Leaderboard
             players={state.players}
             totalRounds={state.totalRounds}
@@ -259,7 +259,7 @@ export default function HostPage() {
           <div className="mt-8 flex gap-4">
             <Link
               href="/"
-              className="px-8 py-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-all"
+              className="rounded-2xl bg-gray-100 px-8 py-4 font-bold text-gray-700 transition-all hover:bg-gray-200"
             >
               {tGame("backToHome")}
             </Link>
@@ -273,9 +273,9 @@ export default function HostPage() {
 
   // Playing or showing result
   return (
-    <main className="min-h-dvh flex flex-col p-4 md:p-8 bg-gray-50">
+    <main className="flex min-h-dvh flex-col bg-gray-50 p-4 md:p-8">
       {/* Header */}
-      <header className="flex items-center justify-between mb-4">
+      <header className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="text-gray-600">
             {tGame("round")} {state.currentRound} {tGame("of")}{" "}
@@ -297,7 +297,7 @@ export default function HostPage() {
       )}
 
       {/* Image */}
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div className="flex flex-1 flex-col items-center justify-center">
         {state.currentImage && (
           <GameImage
             src={state.currentImage.src}

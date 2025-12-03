@@ -33,8 +33,8 @@ export function Leaderboard({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto space-y-4">
-      <h2 className="text-3xl font-bold text-center text-gray-900 mb-6">
+    <div className="mx-auto w-full max-w-md space-y-4">
+      <h2 className="mb-6 text-center text-3xl font-bold text-gray-900">
         {t("title")}
       </h2>
 
@@ -47,18 +47,18 @@ export function Leaderboard({
           return (
             <div
               key={player.id}
-              className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all shadow-material-1 ${getRankStyle(rank)} ${
-                isCurrentPlayer ? "ring-2 ring-blue-500 scale-105" : ""
+              className={`shadow-material-1 flex items-center gap-4 rounded-xl border-2 p-4 transition-all ${getRankStyle(rank)} ${
+                isCurrentPlayer ? "scale-105 ring-2 ring-blue-500" : ""
               }`}
             >
-              <div className="text-2xl w-12 text-center">
+              <div className="w-12 text-center text-2xl">
                 {getRankEmoji(rank)}
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-bold text-gray-900 truncate">
+              <div className="min-w-0 flex-1">
+                <div className="truncate font-bold text-gray-900">
                   {player.nickname}
                   {isCurrentPlayer && (
-                    <span className="ml-2 text-blue-600 text-sm">
+                    <span className="ml-2 text-sm text-blue-600">
                       {t("you")}
                     </span>
                   )}

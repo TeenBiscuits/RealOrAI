@@ -14,19 +14,19 @@ interface FAQItemProps {
 function FAQItem({ question, answer, isOpen, onToggle, delay }: FAQItemProps) {
   return (
     <div
-      className="bg-white rounded-xl border border-gray-200 shadow-material-1 overflow-hidden animate-fade-in"
+      className="shadow-material-1 animate-fade-in overflow-hidden rounded-xl border border-gray-200 bg-white"
       style={{ animationDelay: delay }}
     >
       <button
         onClick={onToggle}
-        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+        className="flex w-full items-center justify-between px-6 py-4 text-left transition-colors hover:bg-gray-50"
         aria-expanded={isOpen}
       >
-        <h3 className="text-base font-semibold text-gray-900 pr-4">
+        <h3 className="pr-4 text-base font-semibold text-gray-900">
           {question}
         </h3>
         <svg
-          className={`w-5 h-5 text-gray-500 transition-transform duration-300 flex-shrink-0 ${
+          className={`h-5 w-5 flex-shrink-0 text-gray-500 transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
           }`}
           fill="none"
@@ -46,7 +46,7 @@ function FAQItem({ question, answer, isOpen, onToggle, delay }: FAQItemProps) {
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         } overflow-hidden`}
       >
-        <div className="px-6 pb-4 text-gray-600 leading-relaxed">{answer}</div>
+        <div className="px-6 pb-4 leading-relaxed text-gray-600">{answer}</div>
       </div>
     </div>
   );
@@ -85,7 +85,7 @@ export function FAQ() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+      <h2 className="mb-6 text-center text-2xl font-bold text-gray-900">
         {t("title")}
       </h2>
       {faqItems.map((item, index) => (

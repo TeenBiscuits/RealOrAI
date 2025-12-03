@@ -16,7 +16,7 @@ export function PlayerList({
 
   if (players.length === 0) {
     return (
-      <div className="text-center text-gray-500 py-8">
+      <div className="py-8 text-center text-gray-500">
         {t("waitingForPlayers")}
       </div>
     );
@@ -31,12 +31,12 @@ export function PlayerList({
         {players.map((player) => (
           <div
             key={player.id}
-            className={`px-4 py-2 rounded-full font-medium transition-all shadow-sm ${
+            className={`rounded-full px-4 py-2 font-medium shadow-sm transition-all ${
               showVoteStatus
                 ? player.hasVoted
-                  ? "bg-green-100 text-green-700 border border-green-300"
-                  : "bg-gray-100 text-gray-600 border border-gray-300"
-                : "bg-blue-50 text-blue-700 border border-blue-200"
+                  ? "border border-green-300 bg-green-100 text-green-700"
+                  : "border border-gray-300 bg-gray-100 text-gray-600"
+                : "border border-blue-200 bg-blue-50 text-blue-700"
             }`}
           >
             {player.nickname}

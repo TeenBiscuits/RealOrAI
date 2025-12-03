@@ -12,7 +12,7 @@ export function ScoreDisplay({
   currentRound,
 }: ScoreDisplayProps) {
   return (
-    <div className="flex items-center justify-between w-full max-w-md mx-auto text-lg">
+    <div className="mx-auto flex w-full max-w-md items-center justify-between text-lg">
       <div className="flex items-center gap-2">
         <span className="text-gray-500">Round</span>
         <span className="font-bold text-gray-900">{currentRound}</span>
@@ -21,7 +21,7 @@ export function ScoreDisplay({
       </div>
       <div className="flex items-center gap-2">
         <span className="text-gray-500">Score</span>
-        <span className="font-bold text-gray-900 text-2xl">{score}</span>
+        <span className="text-2xl font-bold text-gray-900">{score}</span>
       </div>
     </div>
   );

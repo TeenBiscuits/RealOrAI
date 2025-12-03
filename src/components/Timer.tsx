@@ -14,15 +14,15 @@ export function Timer({ timeLeft, totalTime = 30 }: TimerProps) {
   const isCritical = timeLeft <= 5;
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="flex items-center justify-between mb-2">
+    <div className="mx-auto w-full max-w-md">
+      <div className="mb-2 flex items-center justify-between">
         <span className="text-sm font-medium text-gray-500">
           {t("timeLeft")}
         </span>
         <span
           className={`text-2xl font-bold tabular-nums ${
             isCritical
-              ? "text-red-600 animate-pulse"
+              ? "animate-pulse text-red-600"
               : isLow
                 ? "text-amber-600"
                 : "text-gray-900"
@@ -31,9 +31,9 @@ export function Timer({ timeLeft, totalTime = 30 }: TimerProps) {
           {timeLeft}s
         </span>
       </div>
-      <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+      <div className="h-3 overflow-hidden rounded-full bg-gray-200">
         <div
-          className={`h-full transition-all duration-1000 ease-linear rounded-full ${
+          className={`h-full rounded-full transition-all duration-1000 ease-linear ${
             isCritical
               ? "bg-red-500"
               : isLow

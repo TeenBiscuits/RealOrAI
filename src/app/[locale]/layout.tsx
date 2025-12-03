@@ -81,7 +81,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   return (
     <html lang={locale}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 text-gray-900 antialiased`}
       >
         <Script
           defer

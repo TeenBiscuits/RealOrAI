@@ -20,9 +20,9 @@ export default function SoloPage() {
   // Loading state
   if (gameState.status === "loading") {
     return (
-      <div className="min-h-dvh flex items-center justify-center bg-gray-50">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin mx-auto" />
+      <div className="flex min-h-dvh items-center justify-center bg-gray-50">
+        <div className="space-y-4 text-center">
+          <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
           <p className="text-gray-600">Loading images...</p>
         </div>
       </div>
@@ -32,24 +32,24 @@ export default function SoloPage() {
   // Ready state - show start button
   if (gameState.status === "ready") {
     return (
-      <main className="min-h-dvh flex flex-col bg-gray-50">
-        <header className="p-4 flex justify-between items-center">
+      <main className="flex min-h-dvh flex-col bg-gray-50">
+        <header className="flex items-center justify-between p-4">
           <Link
             href="/"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-gray-600 transition-colors hover:text-gray-900"
           >
             ← {t("back")}
           </Link>
           <LanguageSwitcher />
         </header>
 
-        <div className="flex-1 flex items-center justify-center p-8">
-          <div className="text-center space-y-8 max-w-md">
+        <div className="flex flex-1 items-center justify-center p-8">
+          <div className="max-w-md space-y-8 text-center">
             <h1 className="text-6xl font-bold text-gray-900">{t("title")}</h1>
-            <p className="text-gray-600 text-lg">{t("description")}</p>
+            <p className="text-lg text-gray-600">{t("description")}</p>
             <button
               onClick={startGame}
-              className="w-full py-6 bg-blue-600 text-white font-bold text-2xl rounded-2xl hover:bg-blue-700 transition-all transform hover:scale-105 shadow-material-2 animate-pulse-glow"
+              className="shadow-material-2 animate-pulse-glow w-full transform rounded-2xl bg-blue-600 py-6 text-2xl font-bold text-white transition-all hover:scale-105 hover:bg-blue-700"
             >
               {t("play")}
             </button>
@@ -63,12 +63,12 @@ export default function SoloPage() {
   // Finished state - show final score
   if (gameState.status === "finished") {
     return (
-      <main className="min-h-dvh flex flex-col bg-gray-50">
-        <header className="p-4 flex justify-end">
+      <main className="flex min-h-dvh flex-col bg-gray-50">
+        <header className="flex justify-end p-4">
           <LanguageSwitcher />
         </header>
 
-        <div className="flex-1 flex items-center justify-center p-8">
+        <div className="flex flex-1 items-center justify-center p-8">
           <FinalScore
             score={gameState.score}
             totalRounds={gameState.totalRounds}
@@ -83,9 +83,9 @@ export default function SoloPage() {
 
   // Playing or showing result
   return (
-    <main className="min-h-dvh flex flex-col p-4 md:p-8 bg-gray-50">
+    <main className="flex min-h-dvh flex-col bg-gray-50 p-4 md:p-8">
       {/* Header with score and timer */}
-      <header className="space-y-4 mb-6">
+      <header className="mb-6 space-y-4">
         <ScoreDisplay
           score={gameState.score}
           totalRounds={gameState.totalRounds}
@@ -95,7 +95,7 @@ export default function SoloPage() {
       </header>
 
       {/* Game content */}
-      <div className="flex-1 flex flex-col items-center justify-center space-y-8">
+      <div className="flex flex-1 flex-col items-center justify-center space-y-8">
         {/* Image */}
         {gameState.currentImage && (
           <GameImage

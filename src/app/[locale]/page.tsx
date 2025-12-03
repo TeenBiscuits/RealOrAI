@@ -10,18 +10,18 @@ export default function HomePage() {
   const t = useTranslations("home");
 
   return (
-    <main className="min-h-dvh flex flex-col bg-gray-50">
+    <main className="flex min-h-dvh flex-col bg-gray-50">
       {/* Header */}
-      <header className="p-4 flex justify-end">
+      <header className="flex justify-end p-4">
         <LanguageSwitcher />
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center p-8">
-        <div className="max-w-2xl w-full space-y-12 text-center">
+      <div className="flex flex-1 flex-col items-center justify-center p-8">
+        <div className="w-full max-w-2xl space-y-12 text-center">
           {/* Logo */}
-          <div className="space-y-4 animate-fade-in">
-            <h1 className="text-6xl md:text-7xl font-bold text-gray-900">
+          <div className="animate-fade-in space-y-4">
+            <h1 className="text-6xl font-bold text-gray-900 md:text-7xl">
               {t("title")}
             </h1>
             <p className="text-xl text-gray-600">{t("subtitle")}</p>
@@ -29,31 +29,31 @@ export default function HomePage() {
 
           {/* Game Mode Buttons */}
           <div
-            className="grid md:grid-cols-2 gap-6 animate-fade-in"
+            className="animate-fade-in grid gap-6 md:grid-cols-2"
             style={{ animationDelay: "0.2s" }}
           >
             {/* Solo Mode */}
             <Link
               href="/solo"
-              className="group p-8 bg-white rounded-2xl border border-gray-200 shadow-material-2 transition-all duration-300 hover:scale-105 hover:shadow-material-3 hover:border-blue-300"
+              className="group shadow-material-2 hover:shadow-material-3 rounded-2xl border border-gray-200 bg-white p-8 transition-all duration-300 hover:scale-105 hover:border-blue-300"
             >
-              <div className="text-5xl mb-4">🎯</div>
-              <h2 className="text-2xl font-bold mb-2 text-gray-900">
+              <div className="mb-4 text-5xl">🎯</div>
+              <h2 className="mb-2 text-2xl font-bold text-gray-900">
                 {t("solo")}
               </h2>
-              <p className="text-gray-600 text-sm">{t("soloDescription")}</p>
+              <p className="text-sm text-gray-600">{t("soloDescription")}</p>
             </Link>
 
             {/* With Friends Mode */}
             <Link
               href="/host"
-              className="group p-8 bg-white rounded-2xl border border-gray-200 shadow-material-2 transition-all duration-300 hover:scale-105 hover:shadow-material-3 hover:border-purple-300"
+              className="group shadow-material-2 hover:shadow-material-3 rounded-2xl border border-gray-200 bg-white p-8 transition-all duration-300 hover:scale-105 hover:border-purple-300"
             >
-              <div className="text-5xl mb-4">👥</div>
-              <h2 className="text-2xl font-bold mb-2 text-gray-900">
+              <div className="mb-4 text-5xl">👥</div>
+              <h2 className="mb-2 text-2xl font-bold text-gray-900">
                 {t("withFriends")}
               </h2>
-              <p className="text-gray-600 text-sm">
+              <p className="text-sm text-gray-600">
                 {t("withFriendsDescription")}
               </p>
             </Link>
@@ -61,13 +61,13 @@ export default function HomePage() {
 
           {/* How to Play */}
           <div
-            className="bg-white rounded-2xl p-6 text-left shadow-material-1 border border-gray-100 animate-fade-in"
+            className="shadow-material-1 animate-fade-in rounded-2xl border border-gray-100 bg-white p-6 text-left"
             style={{ animationDelay: "0.4s" }}
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            <h3 className="mb-3 text-lg font-semibold text-gray-900">
               🎮 {t("howToPlay")}
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="leading-relaxed text-gray-600">
               {t("howToPlayDescription")}
             </p>
           </div>

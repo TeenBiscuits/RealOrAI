@@ -51,7 +51,7 @@ export function VoteButtons({
   };
 
   return (
-    <div className="flex gap-4 justify-center flex-wrap">
+    <div className="flex flex-wrap justify-center gap-4">
       <button
         onClick={() => onVote("real")}
         disabled={disabled || !!selectedVote}

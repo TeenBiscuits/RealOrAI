@@ -18,9 +18,9 @@ export function ResultFeedback({
   const t = useTranslations("game");
 
   return (
-    <div className="text-center space-y-6">
+    <div className="space-y-6 text-center">
       <div
-        className={`inline-block px-8 py-4 rounded-2xl text-3xl font-bold ${
+        className={`inline-block rounded-2xl px-8 py-4 text-3xl font-bold ${
           isCorrect
             ? "bg-green-100 text-green-700 ring-2 ring-green-400"
             : "bg-red-100 text-red-700 ring-2 ring-red-400"
@@ -33,7 +33,7 @@ export function ResultFeedback({
       </p>
       <button
         onClick={onNext}
-        className="px-8 py-4 bg-blue-600 text-white font-bold text-xl rounded-2xl hover:bg-blue-700 transition-all transform hover:scale-105 shadow-material-2"
+        className="shadow-material-2 transform rounded-2xl bg-blue-600 px-8 py-4 text-xl font-bold text-white transition-all hover:scale-105 hover:bg-blue-700"
       >
         {isLastRound ? t("finalScore") : t("nextRound")}
       </button>

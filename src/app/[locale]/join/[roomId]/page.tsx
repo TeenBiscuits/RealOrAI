@@ -55,7 +55,10 @@ export default function JoinPage({ params }: JoinPageProps) {
   const handleMessage = useCallback((message: WSMessage) => {
     switch (message.type) {
       case "player:join": {
-        const payload = message.payload as { player: Player; success: boolean };
+        const payload = message.payload as {
+          player: Player;
+          success: boolean;
+        };
         if (payload.success) {
           setState((prev) => ({
             ...prev,
@@ -68,7 +71,10 @@ export default function JoinPage({ params }: JoinPageProps) {
       }
 
       case "error": {
-        const payload = message.payload as { message: string; code: string };
+        const payload = message.payload as {
+          message: string;
+          code: string;
+        };
         setError(payload.message);
         break;
       }
@@ -189,15 +195,15 @@ export default function JoinPage({ params }: JoinPageProps) {
   // Joining - enter nickname
   if (state.status === "joining") {
     return (
-      <main className="min-h-dvh flex flex-col bg-gray-50">
-        <header className="p-4 flex justify-end">
+      <main className="flex min-h-dvh flex-col bg-gray-50">
+        <header className="flex justify-end p-4">
           <LanguageSwitcher />
         </header>
 
-        <div className="flex-1 flex items-center justify-center p-8">
+        <div className="flex flex-1 items-center justify-center p-8">
           <div className="w-full max-w-sm space-y-6">
             <div className="text-center">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="mb-2 text-3xl font-bold text-gray-900">
                 {tGame("title")}
               </h1>
               <p className="text-gray-600">{t("joinGame")}</p>
@@ -210,25 +216,25 @@ export default function JoinPage({ params }: JoinPageProps) {
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder={t("enterNickname")}
                 maxLength={20}
-                className="w-full px-4 py-4 bg-white border border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all shadow-sm"
+                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-4 text-lg text-gray-900 shadow-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
                 onKeyDown={(e) => e.key === "Enter" && handleJoin()}
               />
 
               {error && (
-                <p className="text-red-600 text-sm text-center">{error}</p>
+                <p className="text-center text-sm text-red-600">{error}</p>
               )}
 
               <button
                 onClick={handleJoin}
                 disabled={!nickname.trim() || !isConnected}
-                className="w-full py-4 bg-blue-600 text-white font-bold text-xl rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-all shadow-material-2"
+                className="shadow-material-2 w-full rounded-xl bg-blue-600 py-4 text-xl font-bold text-white transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {t("join")}
               </button>
             </div>
 
             {!isConnected && (
-              <p className="text-center text-amber-600 text-sm">
+              <p className="text-center text-sm text-amber-600">
                 Connecting to server...
               </p>
             )}
@@ -243,17 +249,17 @@ export default function JoinPage({ params }: JoinPageProps) {
   // Waiting for game to start
   if (state.status === "waiting") {
     return (
-      <main className="min-h-dvh flex flex-col items-center justify-center p-8 bg-gray-50">
-        <div className="text-center space-y-6">
-          <div className="w-16 h-16 border-4 border-gray-300 border-t-purple-600 rounded-full animate-spin mx-auto" />
+      <main className="flex min-h-dvh flex-col items-center justify-center bg-gray-50 p-8">
+        <div className="space-y-6 text-center">
+          <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-gray-300 border-t-purple-600" />
           <div>
-            <p className="text-2xl font-bold text-gray-900 mb-2">
+            <p className="mb-2 text-2xl font-bold text-gray-900">
               {t("connected")} ✓
             </p>
             <p className="text-gray-600">{t("waiting")}</p>
           </div>
-          <div className="bg-white rounded-xl px-6 py-4 shadow-material-1 border border-gray-200">
-            <p className="text-gray-600 text-sm">
+          <div className="shadow-material-1 rounded-xl border border-gray-200 bg-white px-6 py-4">
+            <p className="text-sm text-gray-600">
               {state.players.length} {t("players")}
             </p>
           </div>
@@ -269,24 +275,24 @@ export default function JoinPage({ params }: JoinPageProps) {
       : 0;
 
     return (
-      <main className="min-h-dvh flex flex-col bg-gray-50">
-        <header className="p-4 flex justify-center items-center">
+      <main className="flex min-h-dvh flex-col bg-gray-50">
+        <header className="flex items-center justify-center p-4">
           <div className="text-2xl font-bold text-gray-900">
             {tGame("title")}
           </div>
         </header>
-        <div className="flex-1 flex flex-col items-center justify-center p-8">
-          <div className="text-center space-y-6 w-full max-w-sm">
+        <div className="flex flex-1 flex-col items-center justify-center p-8">
+          <div className="w-full max-w-sm space-y-6 text-center">
             <h2 className="text-3xl font-bold text-gray-900">
               {tLeaderboard("title")}
             </h2>
 
             {/* Your result */}
-            <div className="bg-white rounded-2xl p-6 border border-blue-200 shadow-material-2">
-              <div className="text-6xl mb-4">
+            <div className="shadow-material-2 rounded-2xl border border-blue-200 bg-white p-6">
+              <div className="mb-4 text-6xl">
                 {getRankEmoji(state.finalRank || 0)}
               </div>
-              <p className="text-gray-600 mb-2">
+              <p className="mb-2 text-gray-600">
                 {state.player?.nickname} {tLeaderboard("you")}
               </p>
               <p className="text-4xl font-bold text-gray-900">{percentage}%</p>
@@ -300,10 +306,10 @@ export default function JoinPage({ params }: JoinPageProps) {
               {state.players.slice(0, 3).map((player, index) => (
                 <div
                   key={player.id}
-                  className={`flex items-center justify-between p-3 rounded-xl shadow-sm ${
+                  className={`flex items-center justify-between rounded-xl p-3 shadow-sm ${
                     player.id === state.player?.id
-                      ? "bg-blue-50 border border-blue-200"
-                      : "bg-white border border-gray-200"
+                      ? "border border-blue-200 bg-blue-50"
+                      : "border border-gray-200 bg-white"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -326,19 +332,19 @@ export default function JoinPage({ params }: JoinPageProps) {
 
   // Playing or showing result
   return (
-    <main className="min-h-dvh flex flex-col p-4 bg-gray-50">
+    <main className="flex min-h-dvh flex-col bg-gray-50 p-4">
       {/* Header */}
-      <header className="text-center mb-4">
+      <header className="mb-4 text-center">
         <p className="text-gray-500">
           {tGame("round")} {state.currentRound}/{state.totalRounds}
         </p>
-        <p className="text-gray-900 font-bold">
+        <p className="font-bold text-gray-900">
           {tGame("score")}: {state.player?.score || 0}
         </p>
       </header>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div className="flex flex-1 flex-col items-center justify-center">
         {/* Playing - show vote buttons */}
         {state.status === "playing" && (
           <div className="w-full space-y-8">
@@ -353,10 +359,10 @@ export default function JoinPage({ params }: JoinPageProps) {
 
         {/* Voted - waiting for result */}
         {state.status === "voted" && (
-          <div className="text-center space-y-4">
+          <div className="space-y-4 text-center">
             <p className="text-xl text-gray-600">{t("youVoted")}</p>
             <div
-              className={`text-4xl font-bold px-8 py-4 rounded-2xl ${
+              className={`rounded-2xl px-8 py-4 text-4xl font-bold ${
                 state.currentVote === "real"
                   ? "bg-blue-100 text-blue-700"
                   : "bg-purple-100 text-purple-700"
@@ -370,9 +376,9 @@ export default function JoinPage({ params }: JoinPageProps) {
 
         {/* Result */}
         {state.status === "result" && (
-          <div className="text-center space-y-6">
+          <div className="space-y-6 text-center">
             <div
-              className={`text-4xl font-bold px-8 py-4 rounded-2xl ${
+              className={`rounded-2xl px-8 py-4 text-4xl font-bold ${
                 state.isCorrect
                   ? "bg-green-100 text-green-700"
                   : "bg-red-100 text-red-700"
@@ -391,7 +397,7 @@ export default function JoinPage({ params }: JoinPageProps) {
       </div>
 
       {/* Footer - current score */}
-      <footer className="text-center text-gray-500 text-sm">
+      <footer className="text-center text-sm text-gray-500">
         {state.player?.nickname}
       </footer>
     </main>

@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="p-4 text-center text-gray-500 text-sm">
+    <footer className="p-4 text-center text-sm text-gray-500">
       <p>
         Made with ❤️ by{" "}
         <span className="underline decoration-wavy hover:text-gray-900">

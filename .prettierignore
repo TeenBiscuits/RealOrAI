@@ -1,0 +1,63 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+.yarn
+
+# Testing
+coverage
+
+# Next.js
+.next
+out
+build
+
+# Production
+dist
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Environment variables
+.env
+.env*.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Package manager locks
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+
+# Git
+.git
+.github
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Generated files
+public/images/real/*.jpg
+public/images/ai/*.jpg
+*.jpeg
+*.jpg
+*.png
+*.gif
+*.svg
+*.ico
+*.webp

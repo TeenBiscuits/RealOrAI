@@ -9,7 +9,7 @@ export default function HomePage() {
   const t = useTranslations("home");
 
   return (
-    <main className="min-h-screen flex flex-col bg-gray-50">
+    <main className="min-h-dvh flex flex-col bg-gray-50">
       {/* Header */}
       <header className="p-4 flex justify-end">
         <LanguageSwitcher />

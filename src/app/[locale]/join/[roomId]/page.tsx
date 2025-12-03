@@ -189,7 +189,7 @@ export default function JoinPage({ params }: JoinPageProps) {
   // Joining - enter nickname
   if (state.status === "joining") {
     return (
-      <main className="min-h-screen flex flex-col bg-gray-50">
+      <main className="min-h-dvh flex flex-col bg-gray-50">
         <header className="p-4 flex justify-end">
           <LanguageSwitcher />
         </header>
@@ -198,7 +198,7 @@ export default function JoinPage({ params }: JoinPageProps) {
           <div className="w-full max-w-sm space-y-6">
             <div className="text-center">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                📷 Real or AI 🍌
+                {tGame("title")}
               </h1>
               <p className="text-gray-600">{t("joinGame")}</p>
             </div>
@@ -243,7 +243,7 @@ export default function JoinPage({ params }: JoinPageProps) {
   // Waiting for game to start
   if (state.status === "waiting") {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center p-8 bg-gray-50">
+      <main className="min-h-dvh flex flex-col items-center justify-center p-8 bg-gray-50">
         <div className="text-center space-y-6">
           <div className="w-16 h-16 border-4 border-gray-300 border-t-purple-600 rounded-full animate-spin mx-auto" />
           <div>
@@ -269,46 +269,53 @@ export default function JoinPage({ params }: JoinPageProps) {
       : 0;
 
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center p-8 bg-gray-50">
-        <div className="text-center space-y-6 w-full max-w-sm">
-          <h2 className="text-3xl font-bold text-gray-900">
-            {tLeaderboard("title")}
-          </h2>
-
-          {/* Your result */}
-          <div className="bg-white rounded-2xl p-6 border border-blue-200 shadow-material-2">
-            <div className="text-6xl mb-4">
-              {getRankEmoji(state.finalRank || 0)}
-            </div>
-            <p className="text-gray-600 mb-2">
-              {state.player?.nickname} {tLeaderboard("you")}
-            </p>
-            <p className="text-4xl font-bold text-gray-900">{percentage}%</p>
-            <p className="text-gray-500">
-              {state.player?.score}/{state.totalRounds} correct
-            </p>
+      <main className="min-h-dvh flex flex-col bg-gray-50">
+        <header className="p-4 flex justify-center items-center">
+          <div className="text-2xl font-bold text-gray-900">
+            {tGame("title")}
           </div>
+        </header>
+        <div className="flex-1 flex flex-col items-center justify-center p-8">
+          <div className="text-center space-y-6 w-full max-w-sm">
+            <h2 className="text-3xl font-bold text-gray-900">
+              {tLeaderboard("title")}
+            </h2>
 
-          {/* Top 3 */}
-          <div className="space-y-2">
-            {state.players.slice(0, 3).map((player, index) => (
-              <div
-                key={player.id}
-                className={`flex items-center justify-between p-3 rounded-xl shadow-sm ${
-                  player.id === state.player?.id
-                    ? "bg-blue-50 border border-blue-200"
-                    : "bg-white border border-gray-200"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">{getRankEmoji(index + 1)}</span>
-                  <span className="text-gray-900">{player.nickname}</span>
-                </div>
-                <span className="font-bold text-gray-900">
-                  {Math.round((player.score / state.totalRounds) * 100)}%
-                </span>
+            {/* Your result */}
+            <div className="bg-white rounded-2xl p-6 border border-blue-200 shadow-material-2">
+              <div className="text-6xl mb-4">
+                {getRankEmoji(state.finalRank || 0)}
               </div>
-            ))}
+              <p className="text-gray-600 mb-2">
+                {state.player?.nickname} {tLeaderboard("you")}
+              </p>
+              <p className="text-4xl font-bold text-gray-900">{percentage}%</p>
+              <p className="text-gray-500">
+                {state.player?.score}/{state.totalRounds} correct
+              </p>
+            </div>
+
+            {/* Top 3 */}
+            <div className="space-y-2">
+              {state.players.slice(0, 3).map((player, index) => (
+                <div
+                  key={player.id}
+                  className={`flex items-center justify-between p-3 rounded-xl shadow-sm ${
+                    player.id === state.player?.id
+                      ? "bg-blue-50 border border-blue-200"
+                      : "bg-white border border-gray-200"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{getRankEmoji(index + 1)}</span>
+                    <span className="text-gray-900">{player.nickname}</span>
+                  </div>
+                  <span className="font-bold text-gray-900">
+                    {Math.round((player.score / state.totalRounds) * 100)}%
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -319,7 +326,7 @@ export default function JoinPage({ params }: JoinPageProps) {
 
   // Playing or showing result
   return (
-    <main className="min-h-screen flex flex-col p-4 bg-gray-50">
+    <main className="min-h-dvh flex flex-col p-4 bg-gray-50">
       {/* Header */}
       <header className="text-center mb-4">
         <p className="text-gray-500">
@@ -335,9 +342,7 @@ export default function JoinPage({ params }: JoinPageProps) {
         {/* Playing - show vote buttons */}
         {state.status === "playing" && (
           <div className="w-full space-y-8">
-            <p className="text-center text-xl text-gray-600">
-              Look at the screen and vote!
-            </p>
+            <p className="text-center text-xl text-gray-600">{tGame("look")}</p>
             <VoteButtons
               onVote={handleVote}
               selectedVote={state.currentVote}
@@ -357,7 +362,7 @@ export default function JoinPage({ params }: JoinPageProps) {
                   : "bg-purple-100 text-purple-700"
               }`}
             >
-              {state.currentVote === "real" ? "📷 Real" : "🍌 AI"}
+              {state.currentVote === "real" ? t("real") : t("ai")}
             </div>
             <p className="text-gray-500">{t("waitingForResults")}</p>
           </div>

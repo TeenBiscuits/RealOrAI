@@ -20,7 +20,7 @@ export default function SoloPage() {
   // Loading state
   if (gameState.status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-dvh flex items-center justify-center bg-gray-50">
         <div className="text-center space-y-4">
           <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin mx-auto" />
           <p className="text-gray-600">Loading images...</p>
@@ -32,7 +32,7 @@ export default function SoloPage() {
   // Ready state - show start button
   if (gameState.status === "ready") {
     return (
-      <main className="min-h-screen flex flex-col bg-gray-50">
+      <main className="min-h-dvh flex flex-col bg-gray-50">
         <header className="p-4 flex justify-between items-center">
           <Link
             href="/"
@@ -63,7 +63,7 @@ export default function SoloPage() {
   // Finished state - show final score
   if (gameState.status === "finished") {
     return (
-      <main className="min-h-screen flex flex-col bg-gray-50">
+      <main className="min-h-dvh flex flex-col bg-gray-50">
         <header className="p-4 flex justify-end">
           <LanguageSwitcher />
         </header>
@@ -83,7 +83,7 @@ export default function SoloPage() {
 
   // Playing or showing result
   return (
-    <main className="min-h-screen flex flex-col p-4 md:p-8 bg-gray-50">
+    <main className="min-h-dvh flex flex-col p-4 md:p-8 bg-gray-50">
       {/* Header with score and timer */}
       <header className="space-y-4 mb-6">
         <ScoreDisplay

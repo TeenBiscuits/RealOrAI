@@ -17,7 +17,7 @@
 }
 
 body {
-  background: var(--background);
+  background: var(--color-gray-50);
   color: var(--foreground);
   font-family: "Google Sans", "Roboto", Arial, Helvetica, sans-serif;
   min-height: 100vh;

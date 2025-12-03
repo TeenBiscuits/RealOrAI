@@ -60,6 +60,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 };
 
+export const viewport = {
+  themeColor: "#f9fafb",
+};
+
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -77,7 +81,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   return (
     <html lang={locale}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
       >
         <Script
           defer

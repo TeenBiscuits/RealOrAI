@@ -4,9 +4,9 @@ A multiplayer/solo game where players guess if an image is real or AI-generated.
 
 ## Commands
 
-- `pnpm dev` - Start dev server with WebSocket support (port 3000)
-- `pnpm build` - Build for production
-- `pnpm lint` - Run ESLint
+- `bun run dev` - Start dev server with WebSocket support (port 3000)
+- `bun run build` - Build for production
+- `bun run lint` - Run ESLint
 - No test framework configured
 
 ## Code Style

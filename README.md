@@ -11,7 +11,7 @@ A multiplayer game where players try to distinguish between real photos and AI-g
 
 ## Tech Stack
 
-- **Runtime**: Node.js with pnpm
+- **Runtime**: [Bun](https://bun.sh)
 - **Framework**: Next.js 16 (App Router)
 - **Styling**: TailwindCSS 4
 - **Real-time**: WebSockets (ws library)
@@ -22,7 +22,7 @@ A multiplayer game where players try to distinguish between real photos and AI-g
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org) (v18+) and [pnpm](https://pnpm.io) installed
+- [Bun](https://bun.sh) installed
 - (Optional) Unsplash API key for downloading real images
 - (Optional) Google AI API key for generating AI images
 
@@ -34,13 +34,13 @@ git clone <your-repo-url>
 cd real-or-ia
 
 # Install dependencies
-pnpm install
+bun install
 
 # Create placeholder images for testing
-pnpm tsx scripts/create-placeholders.ts
+bun run scripts/create-placeholders.ts
 
 # Start the development server
-pnpm dev
+bun run dev
 ```
 
 The app will be available at `http://localhost:3000`
@@ -61,17 +61,17 @@ To replace placeholder images with real photos and AI-generated images:
 
 3. Run the setup script:
    ```bash
-   npm setup-images 24  # Downloads 12 real + generates 12 AI images
+   bun run setup-images 24  # Downloads 12 real + generates 12 AI images
    ```
 
 ### Individual Image Scripts
 
 ```bash
 # Download only real images from Unsplash
-UNSPLASH_ACCESS_KEY=your_key pnpm download-real 10
+UNSPLASH_ACCESS_KEY=your_key bun run download-real 10
 
 # Generate only AI images using Google Imagen
-GOOGLE_API_KEY=your_key pnpm generate-ai 10
+GOOGLE_API_KEY=your_key bun run generate-ai 10
 ```
 
 ## Game Modes
@@ -139,7 +139,6 @@ real-or-ia/
      fr: "Français",
    };
    ```
-4. Update the middleware matcher in `src/middleware.ts`
 
 ## Image Specifications
 
@@ -151,14 +150,14 @@ All images are processed to:
 
 ## Scripts
 
-| Script                       | Description                                     |
-| ---------------------------- | ----------------------------------------------- |
-| `pnpm dev`                   | Start development server with WebSocket support |
-| `pnpm build`                 | Build for production                            |
-| `pnpm start`                 | Start production server                         |
-| `pnpm setup-images [count]`  | Download real + generate AI images              |
-| `pnpm download-real [count]` | Download images from Unsplash                   |
-| `pnpm generate-ai [count]`   | Generate images with Google Imagen              |
+| Script                          | Description                                     |
+| ------------------------------- | ----------------------------------------------- |
+| `bun run dev`                   | Start development server with WebSocket support |
+| `bun run build`                 | Build for production                            |
+| `bun run start`                 | Start production server                         |
+| `bun run setup-images [count]`  | Download real + generate AI images              |
+| `bun run download-real [count]` | Download images from Unsplash                   |
+| `bun run generate-ai [count]`   | Generate images with Google Imagen              |
 
 ## License
 

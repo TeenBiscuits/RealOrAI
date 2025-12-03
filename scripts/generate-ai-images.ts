@@ -18,7 +18,7 @@ const OUTPUT_DIR = path.join(process.cwd(), "public", "images", "ai");
 const TARGET_WIDTH = 1280;
 const TARGET_HEIGHT = 720; // 16:9 aspect ratio
 
-// 420 diverse, tuned prompts grouped by topic
+// 360 diverse, tuned prompts grouped by topic
 export const IMAGE_PROMPTS: string[] = [
   // nature (20)
   "Hyper-detailed photorealistic nature shot of morning dew on grass blades at sunrise, ultra shallow depth of field, 85mm lens, soft golden backlight, natural color grading, high dynamic range, 8k resolution",
@@ -125,7 +125,7 @@ export const IMAGE_PROMPTS: string[] = [
   "Top-down view of an arrangement of spices in small bowls, 35mm lens, strong color contrast, dark background, high clarity",
   "Slice of pizza being lifted from a whole pizza, 50mm lens, cheese stretch captured, shallow depth, warm saturated tones",
   "Close-up of a cup of tea with lemon on a saucer, 85mm lens, steam visible, soft morning light, neutral background, high detail",
-  // travel (20)
+  // travel (17, trimmed from 20)
   "Traveler’s backpack resting on a train station platform, 35mm lens, shallow depth, motion-blurred train in background, natural daylight",
   "Suitcase and hat placed next to a hotel room window, 50mm lens, soft interior light mixing with daylight, city view outside, warm tones",
   "Airplane wing above clouds seen from a passenger seat, 24mm lens, bright sky, soft cloud gradients, high dynamic range, 6k",
@@ -143,9 +143,6 @@ export const IMAGE_PROMPTS: string[] = [
   "Coastal road with a parked car and open trunk, 24mm lens, golden hour, dramatic coastline, soft sun flare, cinematic palette",
   "Small airport runway with a propeller plane prepared for boarding, 35mm lens, clear sky, subtle heat haze, realistic details",
   "Traveler’s hands holding a guidebook in a hotel lobby, 50mm lens, warm interior lighting, shallow depth, soft background bokeh",
-  "Backpacker crossing a simple wooden bridge over a stream, 24mm lens, dynamic mid-step capture, lush greenery, soft light",
-  "Row of colorful houses in a popular tourist town, 24mm lens, bright daylight, rich saturation, clear architectural lines, 4k",
-  "Traveler watching the sunset from a hostel rooftop, 35mm lens, backlit silhouette, wide city view, warm gradient sky",
   // street-photography (20)
   "Person crossing a street in front of a moving tram, 35mm lens, slightly low angle, motion blur in tram, sharp subject, high contrast",
   "Old man sitting on a bench watching people pass by, 50mm lens, candid capture, soft side light, muted urban color grading",
@@ -188,7 +185,7 @@ export const IMAGE_PROMPTS: string[] = [
   "Old projector casting light beams in a dusty room, 35mm lens, volumetric light, heavy film grain aesthetic, warm nostalgic tones",
   "Row of film canisters labeled and stacked on shelves, 50mm lens, side light, high texture detail, neutral industrial color palette",
   "Script open on a table next to a cup of coffee, 50mm lens, shallow depth, warm overhead light, slight vignette, film-noir style",
-  // landscape (20)
+  // landscape (14, trimmed from 20)
   "Rolling farmland with patchwork fields under a blue sky, aerial-like perspective, 35mm lens, high saturation greens and browns, 8k resolution",
   "Wide valley with a river weaving through the center, 24mm lens, early morning mist, soft light, high dynamic range",
   "Panorama of low hills fading into the distance with soft haze, 35mm lens, telephoto compression, gentle pastel tones",
@@ -203,12 +200,6 @@ export const IMAGE_PROMPTS: string[] = [
   "Rolling hillside covered in dry grass and rocks, 35mm lens, low sun angle creating long shadows, earthy tones",
   "Plateau at dusk with pastel colors in the sky, 24mm lens, minimalistic composition, soft gradient, calm mood",
   "Distant city seen across open fields and gentle hills, 35mm lens, hazy skyline, crisp countryside foreground",
-  "Layered mountain ridges gradually fading into mist, telephoto 200mm lens, blue atmospheric perspective, high detail",
-  "Vast open steppe under a dramatic sky, 24mm lens, wide framing, big cloud formations, natural earthy palette",
-  "Quiet bay with distant land forming a curved horizon, 35mm lens, soft reflections, subdued colors, cinematic calm",
-  "Terraced fields climbing up the sides of hills, 24mm lens, repeating patterns, vibrant green, high clarity, 6k",
-  "River carving a deep valley through a broad landscape, aerial-like view, strong contrast between light river and dark earth",
-  "Sunrise casting long shadows across gentle slopes, 24mm lens, warm golden tones, crisp details, subtle lens flare",
   // portraits (20)
   "Close-up portrait of a person looking directly into the camera, 85mm lens, soft window light, shallow depth, natural skin texture, 4k",
   "Black-and-white headshot with strong side lighting, 85mm lens, high contrast, dramatic shadows, fine detail, studio background",
@@ -230,7 +221,7 @@ export const IMAGE_PROMPTS: string[] = [
   "Portrait of a person with folded arms leaning against a plain background, 50mm lens, even lighting, confident posture, neutral colors",
   "Close-up of a person’s face partially framed by their hands, 85mm lens, shallow depth, focus on eyes, soft background",
   "Person standing near a window with daylight creating soft highlights, 50mm lens, gentle contrast, pastel color palette",
-  // city (20)
+  // city (19, trimmed from 20)
   "Skyline view of a dense city under a clear afternoon sky, 24mm lens, high dynamic range, crisp building details, 8k resolution",
   "Busy intersection surrounded by tall buildings, 24mm lens, slight motion blur in traffic, bright daylight, natural city colors",
   "City riverfront with reflections of lights in the water, 35mm lens, blue hour, long exposure, rich contrast, cinematic tone",
@@ -250,8 +241,7 @@ export const IMAGE_PROMPTS: string[] = [
   "Construction crane towering over unfinished high-rises, 35mm lens, industrial atmosphere, neutral daylight, gritty detail",
   "City street lined with small shops and signage, 24mm lens, shallow depth on mid-ground, natural ambient light, busy textures",
   "Metro entrance surrounded by urban architecture, 24mm lens, slightly low angle, cool color grading, clean lines",
-  "City at dawn with soft blue light and nearly empty streets, 24mm lens, minimal traffic, subtle window lights, quiet mood",
-  // mountains (20)
+  // mountains (18, trimmed from 20)
   "Jagged mountain peaks under a deep blue sky, 24mm lens, high-contrast midday light, detailed rock textures, ultra high resolution",
   "Hiking trail winding along a mountain ridge, 24mm lens, leading lines, soft morning light, hazy distant peaks",
   "Layered mountain ranges fading into the distance at twilight, telephoto 200mm lens, blue atmospheric haze, subtle gradient sky",
@@ -270,9 +260,7 @@ export const IMAGE_PROMPTS: string[] = [
   "Hikers standing near a summit marker on a windy ridge, 24mm lens, dynamic body language, cloudy sky, documentary style",
   "Mountain meadow with small scattered rocks and flowers, 35mm lens, shallow depth on foreground, soft diffused light",
   "Dramatic cliff faces rising from a deep valley floor, 24mm lens, vertical framing, strong contrast, cool tones, 4k",
-  "Distant mountains reflected faintly in a still lake, 35mm lens, minimalistic composition, pastel clouds, soft focus",
-  "Cable car ascending a mountain slope, 35mm lens, diagonal composition, layered depth, natural saturation",
-  // forest (20)
+  // forest (17, trimmed from 20)
   "Dense forest with tall straight trunks and dappled light, 24mm lens, rich green tones, high dynamic range, subtle fog, 6k",
   "Narrow forest path covered in fallen leaves, 35mm lens, leading lines, warm autumn colors, soft backlighting",
   "Sunlight streaming through tree branches creating light beams, 24mm lens, slight haze, high contrast rays, cinematic mood",
@@ -290,10 +278,7 @@ export const IMAGE_PROMPTS: string[] = [
   "Steep hillside densely covered with forest, 24mm lens, aerial-like view, varied canopy textures, natural color grading",
   "Intertwined roots exposed along a forest path, 35mm lens, low angle, high detail in roots, soft ambient light",
   "Raindrops clinging to leaves in a dim forest, macro lens, shallow depth, cool tones, bokeh of darker background",
-  "Narrow stream winding through a lush wooded area, 24mm lens, leading line water, soft reflections, balanced exposure",
-  "Forest seen from above with varied tree canopies, top-down view, rich greens, textured canopy shapes, 8k resolution",
-  "Calm forest pond reflecting surrounding trees, 35mm lens, symmetrical composition, soft light, slight surface ripples",
-  // wildlife (20)
+  // wildlife (15, trimmed from 20)
   "Deer standing alert at the edge of a forest clearing, 200mm lens, shallow depth, early morning mist, natural brown and green palette",
   "Heron standing in shallow water waiting for fish, 200mm lens, mirror reflection on water, soft sunrise colors, high detail",
   "Small herd of antelope grazing in tall grass, 300mm lens, compressed perspective, warm sunset light, savanna background",
@@ -309,11 +294,6 @@ export const IMAGE_PROMPTS: string[] = [
   "Wild goat balanced on a steep rocky ledge, 300mm lens, vertical composition, dramatic cliffs, harsh natural light",
   "Flock of birds taking off from a field, 200mm lens, motion captured mid-flight, backlit wings, muted background",
   "Large bird gliding low over marshland, 300mm lens, reflection in water, soft late afternoon sunlight, subtle haze",
-  "Turtle slowly crossing a dirt path in natural surroundings, 135mm lens, low angle, sharp shell texture, warm tones",
-  "Seal diving into the sea near a rocky coast, 200mm lens, splash frozen mid-air, cool blues and greys, high shutter speed",
-  "Wild rabbit in tall grass with ears raised, 200mm lens, shallow depth, bokeh grass foreground, natural colors",
-  "Small group of wolves standing in a clearing, 200mm lens, moody overcast light, forest background, tense atmosphere",
-  "Hedgehog exploring a patch of natural ground, 135mm lens, low macro angle, detailed spines and soil texture",
   // flowers (20)
   "Close-up of a single rose with water droplets on its petals, macro lens, soft diffused light, deep red tones, black background, 4k",
   "Field of wildflowers in soft afternoon light, 35mm lens, shallow depth in foreground blooms, pastel color palette",
@@ -377,6 +357,7 @@ export const IMAGE_PROMPTS: string[] = [
   "Series of hand-drawn frames forming a rough storyboard, 35mm lens, overhead, high contrast black ink on white paper",
   "Large poster-sized hand-drawn illustration taped to a wall, 35mm lens, slight perspective distortion, studio ambient light",
   "Pencil case spilling art supplies next to sketch pages, 35mm lens, shallow depth of field, warm indoor lighting, casual composition",
+
   // fashion-beauty (20)
   "Person standing against a plain background wearing a stylish coat, 85mm lens, studio lighting, fashion editorial vibe, clean color palette",
   "Row of clothes hanging on a rack in a boutique, 35mm lens, shallow depth on mid garments, soft interior light, pastel tones",

@@ -35,8 +35,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Bun
-bun.lock
+# Package manager locks (using bun.lock)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # Images (generated/downloaded)
 # Uncomment if you don't want to track images in git

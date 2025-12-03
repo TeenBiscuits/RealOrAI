@@ -35,3 +35,8 @@ scripts/
 # Misc
 .DS_Store
 *.log
+
+# Other package manager locks
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

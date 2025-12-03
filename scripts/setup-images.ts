@@ -1,7 +1,7 @@
 /**
  * Script to set up a balanced set of real and AI images
  *
- * Usage: pnpm run scripts/setup-images.ts [total_count]
+ * Usage: bun run scripts/setup-images.ts [total_count]
  *
  * This script will:
  * 1. Download N/2 real images from Unsplash
@@ -11,7 +11,7 @@
  * - UNSPLASH_ACCESS_KEY: Your Unsplash API access key
  * - GOOGLE_API_KEY: Your Google AI API key
  *
- * Example: UNSPLASH_ACCESS_KEY=key1 GOOGLE_API_KEY=key2 node run scripts/setup-images.ts 24
+ * Example: UNSPLASH_ACCESS_KEY=key1 GOOGLE_API_KEY=key2 bun run scripts/setup-images.ts 24
  */
 
 import { spawn } from "child_process";

@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "tsx server.ts",
+    "dev": "bun run server.ts",
     "dev:next": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production tsx server.ts",
+    "start": "NODE_ENV=production bun run server.ts",
     "lint": "eslint",
-    "setup-images": "tsx scripts/setup-images.ts",
-    "download-real": "tsx scripts/download-real-images.ts",
-    "generate-ai": "tsx scripts/generate-ai-images.ts"
+    "setup-images": "bun run scripts/setup-images.ts",
+    "download-real": "bun run scripts/download-real-images.ts",
+    "generate-ai": "bun run scripts/generate-ai-images.ts"
   },
   "dependencies": {
     "@google/genai": "^1.30.0",
@@ -35,7 +35,6 @@
     "eslint-config-next": "16.0.5",
     "prettier": "3.7.3",
     "tailwindcss": "^4.1.17",
-    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

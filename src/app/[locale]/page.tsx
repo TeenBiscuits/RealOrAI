@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Footer } from "@/components/Footer";
+import { FAQ } from "@/components/FAQ";
 
 export default function HomePage() {
   const t = useTranslations("home");
@@ -64,11 +65,16 @@ export default function HomePage() {
             style={{ animationDelay: "0.4s" }}
           >
             <h3 className="text-lg font-semibold text-gray-900 mb-3">
-              {t("howToPlay")}
+              🎮 {t("howToPlay")}
             </h3>
             <p className="text-gray-600 leading-relaxed">
               {t("howToPlayDescription")}
             </p>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="animate-fade-in" style={{ animationDelay: "0.5s" }}>
+            <FAQ />
           </div>
         </div>
       </div>

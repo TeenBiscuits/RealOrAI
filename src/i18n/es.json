@@ -11,7 +11,30 @@
     "withFriends": "Con Amigos",
     "withFriendsDescription": "Crea una partida y juega con otros",
     "howToPlay": "Cómo Jugar",
-    "howToPlayDescription": "Verás 12 imágenes. Para cada una, decide si es una foto real o generada por IA. Tienes 30 segundos por imagen. ¡Buena suerte!"
+    "howToPlayDescription": "Verás 12 imágenes. Para cada una, decide si es una foto real o generada por IA. Tienes 30 segundos por imagen. ¡Buena suerte!",
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "q1": {
+        "question": "¿Cómo funciona el juego?",
+        "answer": "Se te mostrarán una serie de imágenes (pregeneradas) aleatorias y deberás adivinar si cada una es una fotografía real o generada por IA. La web cuenta con muchas fotos en su base de datos (+700), por lo que cada partida será única."
+      },
+      "q2": {
+        "question": "¿De donde han salido estas fotos?",
+        "answer": "Por una parte, las fotos 'reales' han sido obtenidas de Unplash, usando la licencia de Unplash que permite su uso gratuito. Por otra parte, las fotos generadas por IA han sido creadas usando el modelo Nano Bannana Pro (gemini-3-pro-image-preview)."
+      },
+      "q3": {
+        "question": "¿Puedo jugar con amigos remotamente?",
+        "answer": "¡Sí! Elige el modo 'Con Amigos', crea una sala y comparte el código QR o el código de sala con tus amigos. Pueden unirse desde cualquier dispositivo con navegador web."
+      },
+      "q4": {
+        "question": "¿Quién y por qué ha creado esto?",
+        "answer": "Soy Pablo (el que sale al final de cada página de esta web), soy un estudiante de ingeniería informática y he creado este proyecto (en aprox. 24 horas) para tratar de concienciar al público general de la dificultad actual de distinguir imágenes reales de imágenes generadas por IA."
+      },
+      "q5": {
+        "question": "¿Esta web es de código abierto?",
+        "answer": "No, por ahora. El código de la web está un poco 'verde' (lo desarrollé en muy poco tiempo usando IA) y preferiría trabajar un poco en él antes de abrirlo al público. Puedes seguirme en GitHub (TeenBiscuits), para no perderte cuando lo publique."
+      }
+    }
   },
   "game": {
     "title": "📷 Real o IA 🍌",

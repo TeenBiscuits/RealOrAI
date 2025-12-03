@@ -11,7 +11,30 @@
     "withFriends": "With Friends",
     "withFriendsDescription": "Host a game and play with others",
     "howToPlay": "How to Play",
-    "howToPlayDescription": "You'll see 12 images. For each one, decide if it's a real photo or AI-generated. You have 30 seconds per image. Good luck!"
+    "howToPlayDescription": "You'll see 12 images. For each one, decide if it's a real photo or AI-generated. You have 30 seconds per image. Good luck!",
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": {
+        "question": "How does the game work?",
+        "answer": "You’ll be shown a series of random (pre-generated) images and you must guess whether each one is a real photograph or AI-generated. The website has many photos in its database (700+), so each game will be unique."
+      },
+      "q2": {
+        "question": "Where did these photos come from?",
+        "answer": "On the one hand, the ‘real’ photos were obtained from Unsplash, using the Unsplash license that allows free use. On the other hand, the AI-generated photos were created using the Nano Bannana Pro model (gemini-3-pro-image-preview)."
+      },
+      "q3": {
+        "question": "Can I play remotely with friends?",
+        "answer": "Yes! Choose the ‘With Friends’ mode, create a room, and share the QR code or room code with your friends. They can join from any device with a web browser."
+      },
+      "q4": {
+        "question": "Who created this and why?",
+        "answer": "I’m Pablo (the one who appears at the bottom of each page on this site), I’m a computer engineering student and I created this project (in approx. 24 hours) to try to raise general public awareness of how hard it currently is to distinguish real images from AI-generated images."
+      },
+      "q5": {
+        "question": "Is this website open source?",
+        "answer": "Not yet. The site’s code is still a bit ‘rough around the edges’ (I developed it in a very short time using AI) and I’d prefer to work on it a bit more before opening it to the public. You can follow me on GitHub (TeenBiscuits) so you don’t miss it when I publish it."
+      }
+    }
   },
   "game": {
     "title": "📷 Real o IA 🍌",

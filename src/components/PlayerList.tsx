@@ -31,14 +31,17 @@ export function PlayerList({
         {players.map((player) => (
           <div
             key={player.id}
-            className={`rounded-full px-4 py-2 font-medium shadow-sm transition-all ${
+            className={`rounded-full px-4 py-2 shadow-sm transition-all ${
               showVoteStatus
                 ? player.hasVoted
-                  ? "border border-green-300 bg-green-100 text-green-700"
-                  : "border border-gray-300 bg-gray-100 text-gray-600"
-                : "border border-blue-200 bg-blue-50 text-blue-700"
+                  ? "border border-green-300 bg-green-100 font-medium text-green-700"
+                  : "border border-gray-300 bg-gray-100 font-medium text-gray-600"
+                : player.nickname.toUpperCase() === "MAITE"
+                  ? "border border-pink-300 bg-pink-200 font-bold text-pink-800"
+                  : "border border-blue-200 bg-blue-50 font-medium text-blue-700"
             }`}
           >
+            {player.nickname.toUpperCase() === "MAITE" ? "👑 " : ""}
             {player.nickname}
             {showVoteStatus && player.hasVoted && (
               <span className="ml-2">✓</span>

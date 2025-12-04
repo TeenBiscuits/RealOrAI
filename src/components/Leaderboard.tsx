@@ -56,6 +56,7 @@ export function Leaderboard({
               </div>
               <div className="min-w-0 flex-1">
                 <div className="truncate font-bold text-gray-900">
+                  {player.nickname.toUpperCase() === "MAITE" ? "👑" : ""}{" "}
                   {player.nickname}
                   {isCurrentPlayer && (
                     <span className="ml-2 text-sm text-blue-600">

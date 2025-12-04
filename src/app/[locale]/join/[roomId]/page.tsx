@@ -368,7 +368,7 @@ export default function JoinPage({ params }: JoinPageProps) {
                   : "bg-purple-100 text-purple-700"
               }`}
             >
-              {state.currentVote === "real" ? t("real") : t("ai")}
+              {state.currentVote === "real" ? tGame("real") : tGame("ai")}
             </div>
             <p className="text-gray-500">{t("waitingForResults")}</p>
           </div>

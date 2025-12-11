@@ -1,6 +1,6 @@
 # 📷 Real or AI 🍌
 
-![SHOWCASE REAL OR AI](./README_IMG.jpg)
+![SHOWCASE REAL OR AI](./README_IMG.png)
 
 A multiplayer game where players try to distinguish between real photos and AI-generated images. Test your skills solo or compete with friends in real-time! Inspired by games like [LinkedIn or Interpol](https://linkedin-or-interpol.com/), and the cooperative style of [Kahoot](https://kahoot.com/).
 

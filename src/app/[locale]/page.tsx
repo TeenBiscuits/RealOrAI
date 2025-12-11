@@ -12,7 +12,8 @@ export default function HomePage() {
   return (
     <main className="flex min-h-dvh flex-col bg-gray-50">
       {/* Header */}
-      <header className="flex justify-end p-4">
+      <header className="flex justify-between p-4">
+        <a href="https://github.com/TeenBiscuits/RealOrAI" className="hover:underline decoration-wavy text-gray-600">TeenBiscuits/RealOrAI</a>
         <LanguageSwitcher />
       </header>
 

@@ -1,6 +1,11 @@
 # 📷 Real or AI 🍌
 
-A multiplayer game where players try to distinguish between real photos and AI-generated images. Test your skills solo or compete with friends in real-time! Inspired by games like LinkedIn, Interpol, and the cooperative style of Kahoot.
+![SHOWCASE REAL OR AI](./README_IMG.jpg)
+
+A multiplayer game where players try to distinguish between real photos and AI-generated images. Test your skills solo or compete with friends in real-time! Inspired by games like [LinkedIn or Interpol](https://linkedin-or-interpol.com/), and the cooperative style of [Kahoot](https://kahoot.com/).
+
+> [!IMPORTANT]  
+> This is a small side project I built because I thought it was fun. The code quality isn't great, but the result is entertaining. I welcome contributions, especially for [translating it into more languages](#adding-new-languages).
 
 ## Features
 
@@ -9,43 +14,42 @@ A multiplayer game where players try to distinguish between real photos and AI-g
 - **Multilingual**: Supports English and Spanish (easily extensible to other languages)
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Real-time Leaderboard**: See scores update live during multiplayer games
-- **Smart Image Pool**: Images are tracked to avoid repetition in solo mode
+- **Smart Image Pool**: Images are tracked to avoid repetition while playing
 
 ## Tech Stack
 
 - **Runtime**: [Bun](https://bun.sh) - Fast JavaScript runtime
 - **Framework**: Next.js 16 with App Router
 - **Language**: TypeScript (strict mode)
-- **Styling**: TailwindCSS 4 with Material Design principles
+- **Styling**: TailwindCSS 4 (Material Design)
 - **Real-time**: WebSockets (ws library) for multiplayer synchronization
-- **i18n**: next-intl for internationalization
+- **i18n**: `next-intl` for internationalization
 - **Image Processing**: Sharp for optimization
-- **QR Codes**: qrcode.react for room sharing
+- **QR Codes**: `qrcode.react` for room sharing
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) v1.0+ installed ([Installation guide](https://bun.sh/docs/installation))
-- Node.js knowledge helpful but not required
-- (Optional) Unsplash API key for downloading real images
-- (Optional) Google AI API key (Gemini/Imagen) for generating AI images
+- [Bun](https://bun.sh) installed ([Installation guide](https://bun.sh/docs/installation))
+- (Optional) Unsplash API key for downloading **more** real images
+- (Optional) Google AI API key for generating **more** AI images
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/TeenBiscuits/RealOrAI.git
 cd real-or-ia
 
 # Install dependencies
 bun install
 
-# Create placeholder images for testing
-bun run scripts/create-placeholders.ts
-
-# Start the development server
+# Start the development server (WebSockets could not work)
 bun run dev
+
+# OR Start the production version
+bun run build && bun run start
 ```
 
 The app will be available at `http://localhost:3000`
@@ -163,6 +167,7 @@ All images are processed to:
 | `bun run build`                 | Build for production                            |
 | `bun run start`                 | Start production server with WebSocket          |
 | `bun run lint`                  | Run ESLint to check code quality                |
+| `bun run format`                | Run Prettier to format the code                 |
 | `bun run setup-images [count]`  | Download real + generate AI images              |
 | `bun run download-real [count]` | Download images from Unsplash                   |
 | `bun run generate-ai [count]`   | Generate images with Google Imagen              |
@@ -200,4 +205,4 @@ Real images are sourced from [Unsplash](https://unsplash.com). See `public/image
 
 ## License
 
-MIT
+Apache License 2.0 - Copyright 2025 Pablo Portas López

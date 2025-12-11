@@ -32,7 +32,7 @@
       },
       "q5": {
         "question": "¿Esta web es de código abierto?",
-        "answer": "No, por ahora. El código de la web está un poco 'verde' (lo desarrollé en muy poco tiempo usando IA) y preferiría trabajar un poco en él antes de abrirlo al público. Puedes seguirme en GitHub (TeenBiscuits), para no perderte cuando lo publique."
+        "answer": "¡Sí! El código de esta web está disponible en GitHub, el link está en la cabecera de la página y públicado bajo una licencia Apache 2.0. Puedes ir a echarle un vistazo si quieres aprender cómo funciona por dentro o incluso contribuir."
       }
     }
   },

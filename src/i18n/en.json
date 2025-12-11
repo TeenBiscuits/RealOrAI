@@ -32,7 +32,7 @@
       },
       "q5": {
         "question": "Is this website open source?",
-        "answer": "Not yet. The site’s code is still a bit ‘rough around the edges’ (I developed it in a very short time using AI) and I’d prefer to work on it a bit more before opening it to the public. You can follow me on GitHub (TeenBiscuits) so you don’t miss it when I publish it."
+        "answer": "Yes! The code for this website is available on GitHub, the link is in the header of the page and published under an Apache 2.0 license. You can go take a look if you want to learn how it works under the hood or even contribute."
       }
     }
   },

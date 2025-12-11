@@ -201,7 +201,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Image Attribution
 
-Real images are sourced from [Unsplash](https://unsplash.com). See `public/images/real/ATTRIBUTION.md` for photo credits.
+Real images are sourced from [Unsplash](https://unsplash.com). See [`ATTRIBUTION.md`](./public/images/real/ATTRIBUTION.md) for photo credits.
 
 ## License
 

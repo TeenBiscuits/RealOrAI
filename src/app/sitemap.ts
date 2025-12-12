@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { locales, defaultLocale } from "@/i18n/config";
 
-const siteUrl = "https://realorai.pablopl.dev/";
+const siteUrl = "https://realorai.pablopl.dev";
 
 const staticRoutes = ["", "/solo", "/host"] as const;
 

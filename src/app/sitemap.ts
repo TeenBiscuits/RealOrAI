@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { locales, defaultLocale } from "@/i18n/config";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl = "https://realorai.pablopl.dev/";
 
 const staticRoutes = ["", "/solo", "/host"] as const;
 

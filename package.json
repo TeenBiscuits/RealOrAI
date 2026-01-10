@@ -16,15 +16,15 @@
     "generate-ai": "bun run scripts/generate-ai-images.ts"
   },
   "dependencies": {
-    "@google/genai": "^1.33.0",
-    "next": "16.0.10",
-    "next-intl": "^4.6.0",
+    "@google/genai": "^1.35.0",
+    "next": "16.1.1",
+    "next-intl": "^4.7.0",
     "qrcode.react": "^4.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sharp": "^0.34.5",
     "uuid": "^13.0.0",
-    "ws": "^8.18.3"
+    "ws": "^8.19.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
@@ -33,9 +33,9 @@
     "@types/react-dom": "^19.2.3",
     "@types/uuid": "^11.0.0",
     "@types/ws": "^8.18.1",
-    "baseline-browser-mapping": "^2.9.7",
-    "eslint": "^9.39.1",
-    "eslint-config-next": "16.0.10",
+    "baseline-browser-mapping": "^2.9.14",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "16.1.1",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",

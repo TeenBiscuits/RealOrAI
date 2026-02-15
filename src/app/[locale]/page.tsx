@@ -13,7 +13,12 @@ export default function HomePage() {
     <main className="flex min-h-dvh flex-col bg-gray-50">
       {/* Header */}
       <header className="flex justify-between p-4">
-        <a href="https://github.com/TeenBiscuits/RealOrAI" className="hover:underline decoration-wavy text-gray-600">TeenBiscuits/RealOrAI</a>
+        <a
+          href="https://github.com/TeenBiscuits/RealOrAI"
+          className="text-gray-600 decoration-wavy hover:underline"
+        >
+          TeenBiscuits/RealOrAI
+        </a>
         <LanguageSwitcher />
       </header>
 

@@ -4,11 +4,8 @@ version: 2
 updates:
   # Bun dependency updates
   - package-ecosystem: "bun"
-    directory: "/"
     schedule:
       interval: "weekly"
-      day: "saturday"
-      time: "09:00"
     groups:
       minor-and-security:
         patterns:
@@ -24,7 +21,6 @@ updates:
 
   # GitHub Actions updates
   - package-ecosystem: "github-actions"
-    directory: "/"
     schedule:
       interval: "monthly"
     labels:
